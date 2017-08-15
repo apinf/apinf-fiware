@@ -118,7 +118,7 @@ const getTokens = function(config, query) {
       endpoint, {
         params: {
           code: query.code,
-          redirectURI: config.redirectURI,
+          redirect_uri: config.redirectURI,
           //client_id: config.clientId,
           //client_secret: OAuth.openSecret(config.secret),
           grant_type: 'authorization_code'
