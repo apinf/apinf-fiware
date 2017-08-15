@@ -126,7 +126,7 @@ const getTokens = function(config, query) {
       });
 
   } catch (err) {
-    throw _.extend(new Error(`Failed to complete OAuth handshake with Fiware. ${err.message}`), {
+    throw _.extend(new Error(`Failed to complete OAuth handshake with FIWARE IdM. ${err.message}`), {
       response: err.response
     });
   }
@@ -136,7 +136,7 @@ const getTokens = function(config, query) {
     /**
      * The http response was a json object with an error attribute
      */
-    throw new Error(`Failed to complete OAuth handshake with Fiware. ${response.data.error}`);
+    throw new Error(`Failed to complete OAuth handshake with FIWARE IdM. ${response.data.error}`);
 
   } else {
 
@@ -158,12 +158,12 @@ const getTokens = function(config, query) {
 };
 
 /**
- * getAccount gets the basic fiware account data
+ * getAccount gets the basic FIWARE IdM account data
  *
  * {
  *   id: 1,
  *   displayName: "Demo user",
- *   email: "demo@fiware.org",
+ *   email: "demo@example.com",
  *   roles: [],
  *   organizations: []
  * }
@@ -188,7 +188,7 @@ const getAccount = function(config, accessToken) {
     return accountObject;
 
   } catch (err) {
-    throw _.extend(new Error(`Failed to fetch account data from Fiware. ${err.message}`), {
+    throw _.extend(new Error(`Failed to fetch account data from FIWARE IdM. ${err.message}`), {
       response: err.response
     });
   }
