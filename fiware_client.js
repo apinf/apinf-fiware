@@ -50,7 +50,7 @@ Fiware.requestCredential = function(options, credentialRequestCompleteCallback) 
    * We use state to roundtrip a random token to help protect against CSRF (boilerplate)
    */
   // hard coded root url = https://account.lab.fiware.org
-  const loginUrl = config.rootURL + '/oauth2/authorize' +
+  const loginUrl =  'https://account.lab.fiware.org/oauth2/authorize' +
     '?response_type=code' +
     '&client_id=' + config.clientId +
     '&redirect_uri=' + config.redirectURI + 

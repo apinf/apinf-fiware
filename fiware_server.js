@@ -80,7 +80,8 @@ OAuth.registerService('fiware', 2, null, function(query) {
     serviceData: serviceData,
     options: {
       profile: {
-        //name: response.username // comes from the token request
+        email: "c.vellames@outlook.com",
+        name: "Cassiano Vellames" // comes from the token request
       }
     }
   };
@@ -119,24 +120,24 @@ const getTokens = function(config, query) {
         params: {
           code: query.code,
           redirect_uri: config.redirectURI,
-          //client_id: config.clientId,
-          //client_secret: OAuth.openSecret(config.secret),
           grant_type: 'authorization_code'
+        },
+        headers: {
+          Authorization: `Basic ` + "YmQ3ODgzNDYxM2Q5NGFhZjkzOTY0NmY5MDE0YTA4OTQ6YmUyZDY3NGQ0ZDBmNGU5N2IxMGQzYzYzZTc4ZmQwNmE="
         }
       });
-
+     
   } catch (err) {
     throw _.extend(new Error(`Failed to complete OAuth handshake with FIWARE IdM. ${err.message}`), {
       response: err.response
     });
   }
 
-  if (response.data.error) {
-
+  if (response.error) {
     /**
      * The http response was a json object with an error attribute
      */
-    throw new Error(`Failed to complete OAuth handshake with FIWARE IdM. ${response.data.error}`);
+    throw new Error(`Failed to complete OAuth handshake with FIWARE IdM. ${response.error}`);
 
   } else {
 
@@ -185,6 +186,8 @@ const getAccount = function(config, accessToken) {
         }
       }
     ).data;
+    console.log("getaccount:");
+    console.log(accountObject);
     return accountObject;
 
   } catch (err) {
