@@ -1,3 +1,6 @@
+[![Code Climate](https://codeclimate.com/github/apinf/apinf-fiware/badges/gpa.svg)](https://codeclimate.com/github/apinf/apinf-fiware)
+[![Issue Count](https://codeclimate.com/github/apinf/apinf-fiware/badges/issue_count.svg)](https://codeclimate.com/github/apinf/apinf-fiware)
+
 # apinf:fiware
 
 An ES2015 Meteor OAuth handler package for FIWARE IdM.
