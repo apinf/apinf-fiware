@@ -8,8 +8,8 @@ before_install:
 
 env:
   - CXX=g++-4.8
-  - TEST_COMMAND=meteor test-packages --driver-package practicalmeteor:mocha apinf-fiware/
-  
+  - TEST_COMMAND=meteor test-packages --driver-package practicalmeteor:mocha ../apinf-fiware
+
 addons:
   apt:
     sources:
