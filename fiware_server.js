@@ -47,7 +47,6 @@ OAuth.registerService('fiware', 2, null, function(query) {
   const response = getTokens(config, query);
   const accessToken = response.accessToken;
 
-
   /**
    * If we got here, we can now request data from the account endpoints
    * to complete our serviceData request.
@@ -108,7 +107,8 @@ OAuth.registerService('fiware', 2, null, function(query) {
 const getTokens = function(config, query) {
 
   const endpoint = config.rootURL + '/oauth2/token';
-  console.log(config)
+  const authHeader = toBase64(`${config.clientId}:${config.secret}`)
+
   /**
    * Attempt the exchange of code for token
    */
@@ -124,8 +124,7 @@ const getTokens = function(config, query) {
           grant_type: 'authorization_code'
         },
         headers: {
-          Host: config.rootURL.replace('https://', ''),
-          Authorization: `Basic ${config.clientId}`,
+          Authorization: `Basic ${authHeader}`,
           "Content-Type": 'application/x-www-form-urlencoded'
         }
       });
@@ -180,13 +179,14 @@ const getTokens = function(config, query) {
 const getAccount = function(config, accessToken) {
 
   const endpoint = config.rootURL + "/user?access_token=" + accessToken;
+  const authHeader = toBase64(`${config.clientId}:${config.secret}`)
   let accountObject;
-
+ 
   try {
     accountObject = HTTP.get(
       endpoint, {
         headers: {
-          Authorization: `Basic ${accessToken}`
+          Authorization: `Basic ${authHeader}`
         }
       }
     ).data;
@@ -198,3 +198,10 @@ const getAccount = function(config, accessToken) {
     });
   }
 };
+
+/**
+  * Converts a string to base64
+  * @param   {String} string       String to be converted
+  * @return  {String}              Converted string
+ */
+const toBase64 = (string) => new Buffer(string).toString('base64')
