@@ -47,7 +47,6 @@ OAuth.registerService('fiware', 2, null, function(query) {
   const response = getTokens(config, query);
   const accessToken = response.accessToken;
 
-
   /**
    * If we got here, we can now request data from the account endpoints
    * to complete our serviceData request.
@@ -80,8 +79,7 @@ OAuth.registerService('fiware', 2, null, function(query) {
     serviceData: serviceData,
     options: {
       profile: {
-        email: "c.vellames@outlook.com",
-        name: "Cassiano Vellames" // comes from the token request
+        //name: response.username // comes from the token request
       }
     }
   };
@@ -109,6 +107,7 @@ OAuth.registerService('fiware', 2, null, function(query) {
 const getTokens = function(config, query) {
 
   const endpoint = config.rootURL + '/oauth2/token';
+  const authHeader = toBase64(`${config.clientId}:${config.secret}`)
 
   /**
    * Attempt the exchange of code for token
@@ -120,24 +119,28 @@ const getTokens = function(config, query) {
         params: {
           code: query.code,
           redirect_uri: config.redirectURI,
+          //client_id: config.clientId,
+          //client_secret: OAuth.openSecret(config.secret),
           grant_type: 'authorization_code'
         },
         headers: {
-          Authorization: `Basic ` + "YmQ3ODgzNDYxM2Q5NGFhZjkzOTY0NmY5MDE0YTA4OTQ6YmUyZDY3NGQ0ZDBmNGU5N2IxMGQzYzYzZTc4ZmQwNmE="
+          Authorization: `Basic ${authHeader}`,
+          "Content-Type": 'application/x-www-form-urlencoded'
         }
       });
-     
+
   } catch (err) {
-    throw _.extend(new Error(`Failed to complete OAuth handshake with FIWARE IdM. ${err.message}`), {
+    throw _.extend(new Error(`getTokens error. Failed to complete OAuth handshake with FIWARE IdM. ${err.message}`), {
       response: err.response
     });
   }
 
-  if (response.error) {
+  if (response.data.error) {
+
     /**
      * The http response was a json object with an error attribute
      */
-    throw new Error(`Failed to complete OAuth handshake with FIWARE IdM. ${response.error}`);
+    throw new Error(`Failed to complete OAuth handshake with FIWARE IdM. ${response.data.error}`);
 
   } else {
 
@@ -176,18 +179,17 @@ const getTokens = function(config, query) {
 const getAccount = function(config, accessToken) {
 
   const endpoint = config.rootURL + "/user?access_token=" + accessToken;
+  const authHeader = toBase64(`${config.clientId}:${config.secret}`)
   let accountObject;
 
   try {
     accountObject = HTTP.get(
       endpoint, {
         headers: {
-          Authorization: `Bearer ${accessToken}`
+          Authorization: `Basic ${authHeader}`
         }
       }
     ).data;
-    console.log("getaccount:");
-    console.log(accountObject);
     return accountObject;
 
   } catch (err) {
@@ -196,3 +198,10 @@ const getAccount = function(config, accessToken) {
     });
   }
 };
+
+/**
+  * Converts a string to base64
+  * @param   {String} string       String to be converted
+  * @return  {String}              Converted string
+ */
+const toBase64 = (string) => new Buffer(string).toString('base64')
