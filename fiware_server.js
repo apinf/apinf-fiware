@@ -108,7 +108,7 @@ OAuth.registerService('fiware', 2, null, function(query) {
 const getTokens = function(config, query) {
 
   const endpoint = config.rootURL + '/oauth2/token';
-
+  console.log(config)
   /**
    * Attempt the exchange of code for token
    */
@@ -122,11 +122,16 @@ const getTokens = function(config, query) {
           //client_id: config.clientId,
           //client_secret: OAuth.openSecret(config.secret),
           grant_type: 'authorization_code'
+        },
+        headers: {
+          Host: config.rootURL.replace('https://', ''),
+          Authorization: `Basic ${config.clientId}`,
+          "Content-Type": 'application/x-www-form-urlencoded'
         }
       });
 
   } catch (err) {
-    throw _.extend(new Error(`Failed to complete OAuth handshake with FIWARE IdM. ${err.message}`), {
+    throw _.extend(new Error(`getTokens error. Failed to complete OAuth handshake with FIWARE IdM. ${err.message}`), {
       response: err.response
     });
   }
@@ -181,7 +186,7 @@ const getAccount = function(config, accessToken) {
     accountObject = HTTP.get(
       endpoint, {
         headers: {
-          Authorization: `Bearer ${accessToken}`
+          Authorization: `Basic ${accessToken}`
         }
       }
     ).data;
