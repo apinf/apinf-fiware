@@ -56,8 +56,6 @@ Fiware.requestCredential = function(options, credentialRequestCompleteCallback) 
     '&redirect_uri=' + config.redirectURI +
     '&state=' + OAuth._stateParam(loginStyle, credentialToken);
 
-  console.log(loginUrl)
-
   /**
    * Client initiates OAuth login request (boilerplate)
   */
