@@ -44,6 +44,12 @@ const mockPostForAccesToken = {
   }
 }
 
+const responseHeaders = {
+  "Content-Type": 'application/json;charset=UTF-8',
+  "Cache-Control": 'no-store',
+  "Pragma": 'no-cache'
+}
+
 describe('requestCredential function', function() {
   it('should be a function', function(done) {
     var err = null
@@ -79,7 +85,10 @@ describe('requestCredential function', function() {
         mockPostForAccesToken.params,
         mockPostForAccesToken.headers
       )
-      .reply(200, mockPostForAccesToken);
+      .reply(200,
+        mockResult.token,
+        responseHeaders
+      );
 
     Fiware.requestCredential(function(res) {
       var err = null
