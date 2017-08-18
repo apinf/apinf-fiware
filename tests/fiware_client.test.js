@@ -1,27 +1,48 @@
 import nock from 'nock'
 import { expect } from 'meteor/practicalmeteor:chai'
 
-// Defines root URL
-const rootUrl = `https://account.lab.fiware.org`
+// Result for mock expect
+const mockResult = {
+  token: {
+    accessToken: 'b2f1CJY819xKaa8Y0LFygkH1e9HRuI',
+    refreshToken: 'qExtjn5h26NsGy5LEvJ3FdNcoIQ3Jz',
+    expiresIn: 3600,
+    tokenType: 'Bearer'
+  },
+  login: {
+    state: 'eyJsb2dpblN0eWxlIjoicG9wdXAiLCJjcmVkZW50aWFsVG9rZW4iOiJSOWpwQkJ4WmNoek9sTnp5RDI4dUxORXM4N2VYWXVNQUFlbFR0cklxeTdqIiwiaXNDb3Jkb3ZhIjpmYWxzZX0=',
+    code: 'rZzOAjVFIDFHlyxVvmUWZl62hCcou7'
+  }
+}
 
-// Denfines nock
-const loginUrlMock = nock(rootUrl)
-
-// Defining clientID for testing
-const clientId = 'bd78834613d94aaf939646f9014a0894'
-
-// Defining secret for testing
-const secret = 'be2d674d4d0f4e97b10d3c63e78fd06a'
-
-
-// Get Url for mocking results
-const getUrl = '/oauth2/authorize?' +
+const requestInfo = {
+  rootUrl: `https://account.lab.fiware.org`,
+  clientId: 'bd78834613d94aaf939646f9014a0894',
+  secret: 'be2d674d4d0f4e97b10d3c63e78fd06a',
+  getLoginUrl: '/oauth2/authorize?' +
                'response_type=code&' +
                'client_id=bd78834613d94aaf939646f9014a0894&' +
-               'redirect_uri=http://localhost:3000&' +
+               'redirect_uri=http://localhost:3000/_oauth/fiware&' +
                'state=xxx'
+}
 
-const mockResultsForLoginRequest = '-Ve4fzRMP8KhMvz4EoSUiNvNrZnG_oGxITcscV1XYTj'
+// Denfines nock
+const rootUrlMock = nock(requestInfo.rootUrl)
+
+ // Mock for Access Token Request
+const mockPostForAccesToken = {
+  // Params for POST request
+  params: {
+    code: 'e1ZuldvzJi7IKgNo17DdDoyqr0LN2S',
+    redirect_uri: 'http://localhost:3000/_oauth/fiware',
+    grant_type: 'authorization_code'
+  },
+  // Headers for the POST request
+  headers: {
+    Authorization: 'Basic YmQ3ODgzNDYxM2Q5NGFhZjkzOTY0NmY5MDE0YTA4OTQ6YmUyZDY3NGQ0ZDBmNGU5N2IxMGQzYzYzZTc4ZmQwNmE==',
+    'Content-Type': 'application/x-www-form-urlencoded'
+  }
+}
 
 describe('requestCredential function', function() {
   it('should be a function', function(done) {
@@ -35,16 +56,30 @@ describe('requestCredential function', function() {
   })
   it('should return valid credentialToken', function(done) {
     this.timeout(50000)
-    // Defining mock url for login
 
     // Sets configuration o test DB
     ServiceConfiguration.configurations.insert({
       service: 'fiware',
-      clientId: clientId,
-      secret: secret,
-      rootURL: rootUrl,
-      redirectURI: 'http://localhost:3000'
+      clientId: requestInfo.clientId,
+      secret: requestInfo.secret,
+      rootURL: requestInfo.rootUrl,
+      redirectURI: 'http://localhost:3000/_oauth/fiware'
     })
+
+    // Nock for Login Url
+    rootUrlMock
+      .filteringPath(/state=[^&]*/g, 'state=XXX')
+      .get(requestInfo.getLoginUrl)
+      .reply(302, mockResult.login)
+
+    // Mock for Request Token
+    rootUrlMock
+      .post(
+        '/oauth2/token',
+        mockPostForAccesToken.params,
+        mockPostForAccesToken.headers
+      )
+      .reply(200, mockPostForAccesToken);
 
     Fiware.requestCredential(function(res) {
       var err = null
