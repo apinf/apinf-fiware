@@ -105,9 +105,24 @@ OAuth.registerService('fiware', 2, null, function(query) {
  * @return  {Object}              The response from the token request (see above)
  */
 const getTokens = function(config, query) {
-
+  // Endpoint for requestin access token
   const endpoint = config.rootURL + '/oauth2/token';
+
+  // Sets dynamic header with clientId and Secret
   const authHeader = toBase64(`${config.clientId}:${config.secret}`)
+
+  // POST params for access token request
+  const params = {
+    code: query.code,
+    redirect_uri: config.redirectURI,
+    grant_type: 'authorization_code'
+  }
+
+  // Headers for access token request
+  const headers = {
+    Authorization: `Basic ${authHeader}`,
+    "Content-Type": 'application/x-www-form-urlencoded'
+  }
 
   /**
    * Attempt the exchange of code for token
@@ -116,17 +131,8 @@ const getTokens = function(config, query) {
   try {
     response = HTTP.post(
       endpoint, {
-        params: {
-          code: query.code,
-          redirect_uri: config.redirectURI,
-          //client_id: config.clientId,
-          //client_secret: OAuth.openSecret(config.secret),
-          grant_type: 'authorization_code'
-        },
-        headers: {
-          Authorization: `Basic ${authHeader}`,
-          "Content-Type": 'application/x-www-form-urlencoded'
-        }
+        params,
+        headers
       });
 
   } catch (err) {
@@ -181,7 +187,7 @@ const getAccount = function(config, accessToken) {
   const endpoint = config.rootURL + "/user?access_token=" + accessToken;
   const authHeader = toBase64(`${config.clientId}:${config.secret}`)
   let accountObject;
- 
+
   try {
     accountObject = HTTP.get(
       endpoint, {
