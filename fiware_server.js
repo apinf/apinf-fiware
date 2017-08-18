@@ -79,7 +79,8 @@ OAuth.registerService('fiware', 2, null, function(query) {
     serviceData: serviceData,
     options: {
       profile: {
-        //name: response.username // comes from the token request
+        email: identity.email,
+        name: identity.displayName
       }
     }
   };
@@ -119,8 +120,6 @@ const getTokens = function(config, query) {
         params: {
           code: query.code,
           redirect_uri: config.redirectURI,
-          //client_id: config.clientId,
-          //client_secret: OAuth.openSecret(config.secret),
           grant_type: 'authorization_code'
         },
         headers: {
@@ -181,7 +180,7 @@ const getAccount = function(config, accessToken) {
   const endpoint = config.rootURL + "/user?access_token=" + accessToken;
   const authHeader = toBase64(`${config.clientId}:${config.secret}`)
   let accountObject;
-
+  
   try {
     accountObject = HTTP.get(
       endpoint, {
