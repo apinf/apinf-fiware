@@ -1,21 +1,103 @@
+// Buffer has to be defined in this version of Meteor
+global.Buffer = global.Buffer || require("buffer").Buffer
+
 // Dependencies imports
 import nock from 'nock'
 import { expect } from 'meteor/practicalmeteor:chai'
 
-// Defines root URL
-const rootUrl = `https://account.lab.fiware.org`
-
-// Defines redirectURI
-const redirectURI = 'http://localhost:3000/_oauth/fiware'
+// Basic request info that all mocks use
+const requestInfo = {
+  redirectURI: 'http://localhost:3000/_oauth/fiware',
+  rootUrl: 'https://account.lab.fiware.org',
+  clientId: 'bd78834613d94aaf939646f9014a0894',
+  secret: 'be2d674d4d0f4e97b10d3c63e78fd06a',
+  authHeader: 'YmQ3ODgzNDYxM2Q5NGFhZjkzOTY0NmY5MDE0YTA4OTQ6YmUyZDY3NGQ0ZDBmNGU5N2IxMGQzYzYzZTc4ZmQwNmE=='
+}
 
 // Denfines nock
-const fiwareMock = nock(rootUrl)
+const fiwareMock = nock(requestInfo.rootUrl)
 
-// Defining clientID for testing
-const clientId = 'bd78834613d94aaf939646f9014a0894'
+// Mock info for the Access token request
+const accessTokenMock = {
+  path: '/oauth2/token',
+  requestParams: {
+    code: 'e1ZuldvzJi7IKgNo17DdDoyqr0LN2S',
+    redirect_uri: 'http://localhost:3000/_oauth/fiware',
+    grant_type: 'authorization_code'
+  },
+  requestHeaders: {
+    Authorization: `Basic ${requestInfo.authHeader}`,
+    'Content-Type': 'application/x-www-form-urlencoded',
+    Host: "account.lab.fiware.org",
+    "Content-length": 126
+  },
+  responseHeaders: {},
+  responseBody: {
+    access_token: 'b2f1CJY819xKaa8Y0LFygkH1e9HRuI',
+    refresh_token: 'qExtjn5h26NsGy5LEvJ3FdNcoIQ3Jz',
+    expires_in: 3600,
+    token_type: 'Bearer'
+  }
+}
 
-// Defining secret for testing
-const secret = 'be2d674d4d0f4e97b10d3c63e78fd06a'
+// Defines mock for access token request
+fiwareMock
+  // Changes randomly generated code to pre-determined one
+  .filteringRequestBody(
+    /code=[^&]*/g,
+    `code=${accessTokenMock.requestParams.code}`
+  )
+  .post(
+    accessTokenMock.path,
+    accessTokenMock.requestParams
+  )
+  .reply(
+    200,
+    accessTokenMock.responseBody
+  )
+
+// Mock info for the account information request
+const getAccountMock = {
+  path: '/user',
+  requestParams: {
+    access_token: accessTokenMock.responseBody.access_token
+  },
+  requestHeaders: {
+    "authorization": "Basic YmQ3ODgzNDYxM2Q5NGFhZjkzOTY0NmY5MDE0YTA4OTQ6YmUyZDY3NGQ0ZDBmNGU5N2IxMGQzYzYzZTc4ZmQwNmE=",
+    "host": "account.lab.fiware.org"
+  },
+  responseHeaders: {},
+  responseBody: {
+    organizations: [],
+    displayName: 'vellames',
+    roles: [
+      { name: 'provider', id: '106' }
+    ],
+    app_id: 'bd78834613d94aaf939646f9014a0894',
+    isGravatarEnabled: false,
+      email: 'c.vellames@outlook.com',
+    id: 'vellames'
+  }
+}
+
+// Defines mock for access token request
+const fiwareMockAccountHeaders = nock(
+  requestInfo.rootUrl,
+  {
+    reqheaders: getAccountMock.requestHeaders
+  }
+)
+
+// Defines accesstoken URL to intercept and reply data
+fiwareMockAccountHeaders
+  .get(
+    `${getAccountMock.path}?access_token=${getAccountMock.requestParams.access_token}`
+  )
+  .reply(
+    200,
+    getAccountMock.responseBody
+  )
+
 
 // Allow insert for config document
 ServiceConfiguration.configurations.allow({
@@ -30,7 +112,7 @@ describe('retrieveCredential property', function() {
     // Error variable
     let err = null
 
-    // Try/Catch state throws error if Fiware.retrieveCredential is a function
+    // Try/Catch statement throws error if Fiware.retrieveCredential is not a function
     try {
 
       // Expects to be function. If not, throw error
@@ -51,7 +133,7 @@ describe('whitelistedFields property', function() {
     // Error variable
     let err = null
 
-    // Try/Catch state throws error if Fiware.whitelistedFields is an array
+    // Try/Catch statement throws error if Fiware.whitelistedFields is an array
     try {
       // Expects to be array. If not, throw error
       expect(Fiware.whitelistedFields).to.be.an('array')
@@ -73,7 +155,7 @@ describe('whitelistedFields property', function() {
     // Error variable
     let err = null
 
-    // Try/Catch state that throws error if arrays does not match
+    // Try/Catch statement that throws error if arrays does not match
     try {
       // Return true if an element is not
       arraysMatch =
@@ -86,6 +168,7 @@ describe('whitelistedFields property', function() {
       // Expect arrays to match. If not, throw err
       expect(arraysMatch).to.be.ok
     } catch(e) {
+      
       // Catchs thrown error and sets it to error variable
       err = e
     }
