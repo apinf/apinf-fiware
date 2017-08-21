@@ -13,4 +13,24 @@ There's an [accompanying blog article](http://robfallows.github.io/2015/12/17/wr
 
 See also the [complementary login package](https://github.com/apinf/apinf-accounts-fiware): `apinf:accounts-fiware`.
 
+### Installing package without atmosphere:
+
+To install the package without download for atmosphere, you need to download this package and the `apinf:accounts-fiware` [in this link](https://github.com/apinf/apinf-accounts-fiware). Its important put the packages in the same folder.
+After the download of the packages, its necessary set the meteor package directory variable in your environment
+
+- Linux:
+  
+  To set the variable in linux open your bash file and write the following code in the end of your file:
+
+  **export METEOR_PACKAGE_DIRS = "/path/to/packages"**
+  
+  You can also open the terminal and write the following command, but, every time that you open the terminal, you will need     run this command again:
+  
+  **METEOR_PACKAGE_DIRS="/path/to/packages"**
+  
+- Windows:
+  
+  To set the variable in windows go to the environment variable window, in the system variable session, add a new variable     called **METEOR_PACKAGE_DIRS** and set the directory where you downloaded the packages.
+ 
+
 Enjoy :smile:
