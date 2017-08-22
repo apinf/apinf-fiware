@@ -8,7 +8,7 @@ import { expect } from 'meteor/practicalmeteor:chai'
 // Basic request info that all mocks use
 const requestInfo = {
   redirectURI: 'http://localhost:3000/_oauth/fiware',
-  rootUrl: 'https://account.lab.fiware.org',
+  rootUrl: 'https://localhost:3010',
   clientId: 'bd78834613d94aaf939646f9014a0894',
   secret: 'be2d674d4d0f4e97b10d3c63e78fd06a',
   authHeader: 'YmQ3ODgzNDYxM2Q5NGFhZjkzOTY0NmY5MDE0YTA4OTQ6YmUyZDY3NGQ0ZDBmNGU5N2IxMGQzYzYzZTc4ZmQwNmE=='
@@ -168,7 +168,7 @@ describe('whitelistedFields property', function() {
       // Expect arrays to match. If not, throw err
       expect(arraysMatch).to.be.ok
     } catch(e) {
-      
+
       // Catchs thrown error and sets it to error variable
       err = e
     }
