@@ -1,5 +1,5 @@
 const express = require('express')
-const data = require('../nock.data.js')
+const data = require('../mock.data.js')
 const address = 'localhost'
 const port = '3010'
 
