@@ -5,29 +5,9 @@ global.Buffer = global.Buffer || require("buffer").Buffer
 import nock from 'nock'
 import { expect } from 'meteor/practicalmeteor:chai'
 
-// Basic request info that all mocks use
-const requestInfo = {
-  redirectURI: 'http://localhost:3000/_oauth/fiware',
-  rootUrl: 'https://localhost:3010',
-  clientId: 'bd78834613d94aaf939646f9014a0894',
-  secret: 'be2d674d4d0f4e97b10d3c63e78fd06a',
-}
 
-// Mock info for the Login Request. This requests the credentialToken
-const loginMock = {
-  path: '/oauth2/authorize',
-  requestParams: {
-    response_type: 'code',
-    client_id: requestInfo.clientId,
-    redirect_uri: requestInfo.redirectURI
-  },
-  requestHeaders: {},
-  responseHeaders: {},
-  responseBody: {
-    state: 'eyJsb2dpblN0eWxlIjoicG9wdXAiLCJjcmVkZW50aWFsVG9rZW4iOiJSOWpwQkJ4WmNoek9sTnp5RDI4dUxORXM4N2VYWXVNQUFlbFR0cklxeTdqIiwiaXNDb3Jkb3ZhIjpmYWxzZX0=',
-    code: 'rZzOAjVFIDFHlyxVvmUWZl62hCcou7'
-  }
-}
+// Basic request info that all mocks use
+import { requestInfo, loginMock } from './mock.data.js'
 
 // Denfines nock
 const fiwareMock = nock(requestInfo.rootUrl)

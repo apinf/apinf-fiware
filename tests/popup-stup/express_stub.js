@@ -1,6 +1,5 @@
 const express = require('express')
-const clientId = 'bd78834613d94aaf939646f9014a0894'
-const state = 'eyJsb2dpblN0eWxlIjoicG9wdXAiLCJjcmVkZW50aWFsVG9rZW4iOiJrOFJuQ0lGbzNreU9hc3RLek0xTDZuWDYwRWdQSXZoaDYtQV9wWkhDdzdDIiwiaXNDb3Jkb3ZhIjpmYWxzZX0='
+const data = require('../nock.data.js')
 const address = 'localhost'
 const port = '3010'
 
@@ -13,8 +12,8 @@ app.get('/oauth2/authorize', (req, res) => {
   console.log(req.query.state == state)
   if (
     req.query.response_type == 'code' &&
-    req.query.client_id == clientId &&
-    req.query.state == state
+    req.query.client_id == data.requestInfo.clientId &&
+    req.query.state == data.requestInfo.state
   ) {
     res.json({
       state: state,

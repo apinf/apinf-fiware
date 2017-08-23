@@ -6,39 +6,10 @@ import nock from 'nock'
 import { expect } from 'meteor/practicalmeteor:chai'
 
 // Basic request info that all mocks use
-const requestInfo = {
-  redirectURI: 'http://localhost:3000/_oauth/fiware',
-  rootUrl: 'https://localhost:3010',
-  clientId: 'bd78834613d94aaf939646f9014a0894',
-  secret: 'be2d674d4d0f4e97b10d3c63e78fd06a',
-  authHeader: 'YmQ3ODgzNDYxM2Q5NGFhZjkzOTY0NmY5MDE0YTA4OTQ6YmUyZDY3NGQ0ZDBmNGU5N2IxMGQzYzYzZTc4ZmQwNmE=='
-}
+import { requestInfo, accessTokenMock, getAccountMock } from './mock.data.js'
 
 // Denfines nock
 const fiwareMock = nock(requestInfo.rootUrl)
-
-// Mock info for the Access token request
-const accessTokenMock = {
-  path: '/oauth2/token',
-  requestParams: {
-    code: 'e1ZuldvzJi7IKgNo17DdDoyqr0LN2S',
-    redirect_uri: 'http://localhost:3000/_oauth/fiware',
-    grant_type: 'authorization_code'
-  },
-  requestHeaders: {
-    Authorization: `Basic ${requestInfo.authHeader}`,
-    'Content-Type': 'application/x-www-form-urlencoded',
-    Host: "account.lab.fiware.org",
-    "Content-length": 126
-  },
-  responseHeaders: {},
-  responseBody: {
-    access_token: 'b2f1CJY819xKaa8Y0LFygkH1e9HRuI',
-    refresh_token: 'qExtjn5h26NsGy5LEvJ3FdNcoIQ3Jz',
-    expires_in: 3600,
-    token_type: 'Bearer'
-  }
-}
 
 // Defines mock for access token request
 fiwareMock
@@ -55,30 +26,6 @@ fiwareMock
     200,
     accessTokenMock.responseBody
   )
-
-// Mock info for the account information request
-const getAccountMock = {
-  path: '/user',
-  requestParams: {
-    access_token: accessTokenMock.responseBody.access_token
-  },
-  requestHeaders: {
-    "authorization": "Basic YmQ3ODgzNDYxM2Q5NGFhZjkzOTY0NmY5MDE0YTA4OTQ6YmUyZDY3NGQ0ZDBmNGU5N2IxMGQzYzYzZTc4ZmQwNmE=",
-    "host": "account.lab.fiware.org"
-  },
-  responseHeaders: {},
-  responseBody: {
-    organizations: [],
-    displayName: 'vellames',
-    roles: [
-      { name: 'provider', id: '106' }
-    ],
-    app_id: 'bd78834613d94aaf939646f9014a0894',
-    isGravatarEnabled: false,
-      email: 'c.vellames@outlook.com',
-    id: 'vellames'
-  }
-}
 
 // Defines mock for access token request
 const fiwareMockAccountHeaders = nock(
@@ -107,7 +54,7 @@ ServiceConfiguration.configurations.allow({
   }
 })
 
-describe('retrieveCredential property', function() {
+describe('retrieveCredential', function() {
   it('should be a function', function(done) {
     // Error variable
     let err = null
@@ -128,7 +75,7 @@ describe('retrieveCredential property', function() {
   })
 
 })
-describe('whitelistedFields property', function() {
+describe('whitelistedFields', function() {
   it('should be an array', function(done) {
     // Error variable
     let err = null
