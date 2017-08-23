@@ -17,4 +17,5 @@ addons:
       - g++-4.8
 
 script:
+  - npm run start-stub
   - meteor test-packages --driver-package practicalmeteor:mocha ../apinf-fiware
