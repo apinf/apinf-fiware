@@ -34,7 +34,7 @@ const accessTokenMock = {
   requestHeaders: {
     Authorization: `Basic ${requestInfo.authHeader}`,
     'Content-Type': 'application/x-www-form-urlencoded',
-    Host: "account.lab.fiware.org",
+    Host: 'account.lab.fiware.org',
     "Content-length": 126
   },
   responseHeaders: {},
@@ -46,8 +46,33 @@ const accessTokenMock = {
   }
 }
 
+// Mock info for the account information request
+const getAccountMock = {
+  path: '/user',
+  requestParams: {
+    access_token: accessTokenMock.responseBody.access_token
+  },
+  requestHeaders: {
+    authorization: `Basic ${requestInfo.authHeader}`,
+    host: 'account.lab.fiware.org'
+  },
+  responseHeaders: {},
+  responseBody: {
+    organizations: [],
+    displayName: 'vellames',
+    roles: [
+      { name: 'provider', id: '106' }
+    ],
+    app_id: 'bd78834613d94aaf939646f9014a0894',
+    isGravatarEnabled: false,
+      email: 'c.vellames@outlook.com',
+    id: 'vellames'
+  }
+}
+
 module.exports = {
   requestInfo,
   loginMock,
   accessTokenMock,
+  getAccountMock
 }
