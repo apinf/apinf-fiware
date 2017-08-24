@@ -105,7 +105,7 @@ OAuth.registerService('fiware', 2, null, function(query) {
  * @return  {Object}              The response from the token request (see above)
  */
 const getTokens = function(config, query) {
-  // Endpoint for requestin access token
+  // Endpoint for requesting access token
   const endpoint = config.rootURL + '/oauth2/token';
 
   // Sets dynamic header with clientId and Secret
