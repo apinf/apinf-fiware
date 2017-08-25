@@ -1,9 +1,14 @@
 const express = require('express')
+const path = require('path')
 const data = require('../mock.data.js')
 const address = 'localhost'
 const port = '3010'
+const cors = require('cors')
 
 let app = express()
+
+app.use(express.static(path.resolve(__dirname) + '/public'))
+app.use(cors())
 
 app.get('/oauth2/authorize', (req, res) => {
 
@@ -12,7 +17,7 @@ app.get('/oauth2/authorize', (req, res) => {
     req.query.client_id == data.requestInfo.clientId &&
     req.query.state.state == data.requestInfo.state.state
   ) {
-    res.json(data.loginMock.responseBody)
+    res.sendfile('tests/popup-stub/public/end-of-popup.html')
   }
 })
 
