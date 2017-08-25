@@ -16,6 +16,9 @@ addons:
     packages:
       - g++-4.8
 
-script:
+before_script:
+  - npm install -g spacejam
   - npm run start-stub &
-  - meteor test-packages --driver-package practicalmeteor:mocha ../apinf-fiware
+
+script:
+  - spacejam test-packages --driver-package practicalmeteor:mocha ../apinf-fiware
