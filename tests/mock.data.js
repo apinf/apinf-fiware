@@ -7,6 +7,14 @@ const requestInfo = {
   state: 'eyJsb2dpblN0eWxlIjoicG9wdXAiLCJjcmVkZW50aWFsVG9rZW4iOiJSOWpwQkJ4WmNoek9sTnp5RDI4dUxORXM4N2VYWXVNQUFlbFR0cklxeTdqIiwiaXNDb3Jkb3ZhIjpmYWxzZX0='
 }
 
+const configResponse = {
+  "setCredentialToken": true,
+  "credentialToken": "XGe7JhDb0P8EMts04zKjISaQ__sLUnna7PXOfI5gGz8",
+  "credentialSecret": "yBgBEHSxKQ6Jicc3LKhF8VsH6PkFneG3A2V_RtFBrXV",
+  "storagePrefix": "Meteor.oauth.credentialSecret-",
+  "isCordova": false
+}
+
 // Mock info for the Login Request. This requests the credentialToken
 const loginMock = {
   path: '/oauth2/authorize',
@@ -25,7 +33,7 @@ const loginMock = {
 
 // Mock info for the Access token request
 const accessTokenMock = {
-  path: '/oauth2/token',
+  path: loginMock.path,
   requestParams: {
     code: 'e1ZuldvzJi7IKgNo17DdDoyqr0LN2S',
     redirect_uri: requestInfo.redirectURI,
@@ -63,7 +71,7 @@ const getAccountMock = {
     roles: [
       { name: 'provider', id: '106' }
     ],
-    app_id: 'bd78834613d94aaf939646f9014a0894',
+    app_id: requestInfo.clientId,
     isGravatarEnabled: false,
       email: 'c.vellames@outlook.com',
     id: 'vellames'
@@ -74,5 +82,6 @@ module.exports = {
   requestInfo,
   loginMock,
   accessTokenMock,
+  configResponse,
   getAccountMock
 }
