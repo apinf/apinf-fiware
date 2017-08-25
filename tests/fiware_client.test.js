@@ -44,7 +44,7 @@ describe('requestCredential function', function() {
   })
   it('should return valid credentialToken', function(done) {
     // Timeout for the request
-    this.timeout(50000)
+    this.timeout(5000)
 
     // Sets configuration o test DB
     ServiceConfiguration.configurations.insert({
