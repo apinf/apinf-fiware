@@ -48,7 +48,7 @@ Package.onTest(function(api) {
     'client');
 
   api.addFiles('fiware_server.js', 'server');
-  api.addFiles('fiware_client.js', 'client');
+  // api.addFiles('fiware_client.js', 'client');
   api.addFiles('tests/fiware_server.test.js', 'server');
   api.addFiles('tests/fiware_client.test.js', 'client');
 });

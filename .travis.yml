@@ -10,7 +10,6 @@ env:
   - CXX=g++-4.8
 
 addons:
-  chrome: stable
   apt:
     sources:
       - ubuntu-toolchain-r-test
@@ -18,7 +17,8 @@ addons:
       - g++-4.8
 
 before_script:
-  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost:3000 &
+  - npm install -g spacejam
+  - npm run start-stub &
 
 script:
-  - meteor test-packages --driver-package practicalmeteor:mocha ../apinf-fiware
+  - spacejam test-packages --driver-package=practicalmeteor:mocha-console-runner ./
