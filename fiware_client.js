@@ -1,5 +1,7 @@
 'use strict';
 
+import { endpoints, hashs } from './config.js'
+
 /**
  * Define the base object namespace. By convention we use the service name
  * in PascalCase (aka UpperCamelCase). Note that this is defined as a package global (boilerplate).
@@ -50,11 +52,7 @@ Fiware.requestCredential = function(options, credentialRequestCompleteCallback) 
    * We use state to roundtrip a random token to help protect against CSRF (boilerplate)
    */
   // hard coded root url = https://account.lab.fiware.org
-  const loginUrl =  config.rootURL + '/oauth2/authorize' +
-    '?response_type=code' +
-    '&client_id=' + config.clientId +
-    '&redirect_uri=' + config.redirectURI +
-    '&state=' + OAuth._stateParam(loginStyle, credentialToken);
+  const loginUrl = endpoints.buildLoginUrl(config)
 
   /**
    * Client initiates OAuth login request (boilerplate)
