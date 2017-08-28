@@ -1,0 +1,23 @@
+sudo: required
+language: node_js
+node_js:
+  - "8"
+
+before_install:
+  - "curl -L http://git.io/ejPSng | /bin/sh"
+
+env:
+  - CXX=g++-4.8
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-4.8
+
+before_script:
+  - npm run start-stub &
+
+script:
+  - meteor test-packages --once --driver-package=dispatch:mocha ./

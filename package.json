@@ -1,0 +1,16 @@
+{
+  "name": "apinf-fiware",
+  "version": "0.1.0",
+  "description": "oAuth package to integrate FIWARE oAuth Service to APinf platform",
+  "author": "APinf.io",
+  "license": "MIT",
+  "scripts": {
+    "start-stub": "node ./tests/popup-stub/express-stub.js"
+  },
+  "devDependencies": {
+    "chromedriver": "^2.31.0",
+    "cors": "^2.8.4",
+    "express": "4.15.4",
+    "selenium-webdriver": "3.0.0-beta-2"
+  }
+}

@@ -45,7 +45,7 @@ Fiware.requestCredential = function(options, credentialRequestCompleteCallback) 
 
   /**
    * The response_type attribute is mandatory and must be set to code. The client_id attribute is the one provided by the
-   * FIWARE IdM upon application registration. The redirect_uri attribute must match the Callback URL attribute provided 
+   * FIWARE IdM upon application registration. The redirect_uri attribute must match the Callback URL attribute provided
    * to the IdM within the application registration. state is optional and for internal use of you application, if needed.
    * We use state to roundtrip a random token to help protect against CSRF (boilerplate)
    */
@@ -53,7 +53,7 @@ Fiware.requestCredential = function(options, credentialRequestCompleteCallback) 
   const loginUrl =  config.rootURL + '/oauth2/authorize' +
     '?response_type=code' +
     '&client_id=' + config.clientId +
-    '&redirect_uri=' + config.redirectURI + 
+    '&redirect_uri=' + config.redirectURI +
     '&state=' + OAuth._stateParam(loginStyle, credentialToken);
 
   /**

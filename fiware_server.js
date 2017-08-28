@@ -18,7 +18,7 @@ Fiware.retrieveCredential = (credentialToken, credentialSecret) => {
  * Note that we *must* have an id. Also, this array is referenced in the
  * accounts-fiware package, so we should probably keep this name and structure.
  */
-Fiware.whitelistedFields = ['id', 'email', 'displayName'];
+Fiware.allowedFields = ['id', 'email', 'displayName'];
 
 /**
  * Register this service with the underlying OAuth handler
@@ -69,7 +69,7 @@ OAuth.registerService('fiware', 2, null, function(query) {
   if (response.refreshToken) {
     serviceData.refreshToken = response.refreshToken;
   }
-  _.extend(serviceData, _.pick(identity, Fiware.whitelistedFields));
+  _.extend(serviceData, _.pick(identity, Fiware.allowedFields));
 
   /**
    * Return the serviceData object along with an options object containing
@@ -106,9 +106,24 @@ OAuth.registerService('fiware', 2, null, function(query) {
  * @return  {Object}              The response from the token request (see above)
  */
 const getTokens = function(config, query) {
-
+  // Endpoint for requesting access token
   const endpoint = config.rootURL + '/oauth2/token';
+
+  // Sets dynamic header with clientId and Secret
   const authHeader = toBase64(`${config.clientId}:${config.secret}`)
+
+  // POST params for access token request
+  const params = {
+    code: query.code,
+    redirect_uri: config.redirectURI,
+    grant_type: 'authorization_code'
+  }
+
+  // Headers for access token request
+  const headers = {
+    Authorization: `Basic ${authHeader}`,
+    "Content-Type": 'application/x-www-form-urlencoded'
+  }
 
   /**
    * Attempt the exchange of code for token
@@ -117,15 +132,8 @@ const getTokens = function(config, query) {
   try {
     response = HTTP.post(
       endpoint, {
-        params: {
-          code: query.code,
-          redirect_uri: config.redirectURI,
-          grant_type: 'authorization_code'
-        },
-        headers: {
-          Authorization: `Basic ${authHeader}`,
-          "Content-Type": 'application/x-www-form-urlencoded'
-        }
+        params,
+        headers
       });
 
   } catch (err) {
@@ -180,7 +188,7 @@ const getAccount = function(config, accessToken) {
   const endpoint = config.rootURL + "/user?access_token=" + accessToken;
   const authHeader = toBase64(`${config.clientId}:${config.secret}`)
   let accountObject;
-  
+
   try {
     accountObject = HTTP.get(
       endpoint, {
