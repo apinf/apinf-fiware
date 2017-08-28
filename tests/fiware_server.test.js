@@ -92,6 +92,7 @@ describe('allowedFields', function() {
     // Test done
     done(err)
   })
+
   it('should have correct white listed fields', function(done) {
     // Correct array of fields to return
     const correctArray = ['id', 'email', 'displayName']
@@ -123,5 +124,4 @@ describe('allowedFields', function() {
     // Test done
     done(err)
   })
-
 })
