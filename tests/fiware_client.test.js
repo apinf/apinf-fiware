@@ -23,7 +23,7 @@ fiwareMock
     loginMock.responseBody
   )
 
-describe('requestCredential function', function() {
+describe('requestCredential', function() {
   it('should be a function', function(done) {
     // Error variable
     let err = null
