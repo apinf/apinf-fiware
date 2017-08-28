@@ -19,10 +19,10 @@ const endpoints = {
     '&client_id=' + config.clientId +
     '&redirect_uri=' + config.redirectURI +
     '&state=' + OAuth._stateParam(loginStyle, credentialToken)
-  )
+  ),
 
   // Function that builds getTokens Url dynamicaly with the config object
-  buildGetTokensUrl: (config) => config.rootURL + '/oauth2/token'
+  buildGetTokensUrl: (config) => config.rootURL + '/oauth2/token',
 
   // Function that builds getAccounts Url dynamicaly with the config object
   buildGetAccountsUrl: (config, accessToken) => (
@@ -37,4 +37,4 @@ const config = {
 }
 
 // Exporting configs
-export config
+export default config
