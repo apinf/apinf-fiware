@@ -18,7 +18,7 @@ Fiware.retrieveCredential = (credentialToken, credentialSecret) => {
  * Note that we *must* have an id. Also, this array is referenced in the
  * accounts-fiware package, so we should probably keep this name and structure.
  */
-Fiware.whitelistedFields = ['id', 'email', 'displayName'];
+Fiware.allowedFields = ['id', 'email', 'displayName'];
 
 /**
  * Register this service with the underlying OAuth handler
@@ -69,7 +69,7 @@ OAuth.registerService('fiware', 2, null, function(query) {
   if (response.refreshToken) {
     serviceData.refreshToken = response.refreshToken;
   }
-  _.extend(serviceData, _.pick(identity, Fiware.whitelistedFields));
+  _.extend(serviceData, _.pick(identity, Fiware.allowedFields));
 
   /**
    * Return the serviceData object along with an options object containing

@@ -75,15 +75,15 @@ describe('retrieveCredential', function() {
   })
 
 })
-describe('whitelistedFields', function() {
+describe('allowedFields', function() {
   it('should be an array', function(done) {
     // Error variable
     let err = null
 
-    // Try/Catch statement throws error if Fiware.whitelistedFields is an array
+    // Try/Catch statement throws error if Fiware.allowedFields is an array
     try {
       // Expects to be array. If not, throw error
-      expect(Fiware.whitelistedFields).to.be.an('array')
+      expect(Fiware.allowedFields).to.be.an('array')
     } catch(e) {
       // Catchs thrown error and sets it to error variable
       err = e
@@ -106,11 +106,11 @@ describe('whitelistedFields', function() {
     try {
       // Return true if an element is not
       arraysMatch =
-        !correctArray.some(field => Fiware.whitelistedFields.indexOf(field) == -1)
+        !correctArray.some(field => Fiware.allowedFields.indexOf(field) == -1)
 
       // Check using the other array as validator, to make sure both are equal
       arraysMatch =
-        !Fiware.whitelistedFields.some(field => correctArray.indexOf(field) == -1)
+        !Fiware.allowedFields.some(field => correctArray.indexOf(field) == -1)
 
       // Expect arrays to match. If not, throw err
       expect(arraysMatch).to.be.ok
