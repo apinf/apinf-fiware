@@ -1,5 +1,7 @@
 'use strict';
 
+import { endpoints, hashs } from './config.js'
+
 /**
  * Define the base object namespace. By convention we use the service name
  * in PascalCase (aka UpperCamelCase). Note that this is defined as a package global.
@@ -107,10 +109,10 @@ OAuth.registerService('fiware', 2, null, function(query) {
  */
 const getTokens = function(config, query) {
   // Endpoint for requesting access token
-  const endpoint = config.rootURL + '/oauth2/token';
+  const endpoint = endpoints.buildGetTokensUrl(config)
 
   // Sets dynamic header with clientId and Secret
-  const authHeader = toBase64(`${config.clientId}:${config.secret}`)
+  const authHeader = hashs.getAuthHeadear(config)
 
   // POST params for access token request
   const params = {
@@ -184,9 +186,12 @@ const getTokens = function(config, query) {
  * @return  {Object}              The response from the account request (see above)
  */
 const getAccount = function(config, accessToken) {
+  // Endpoint to request account data
+  const endpoint = endpoints.buildGetAccountsUrl(config, accessToken)
 
-  const endpoint = config.rootURL + "/user?access_token=" + accessToken;
-  const authHeader = toBase64(`${config.clientId}:${config.secret}`)
+  // Authentication header Hash
+  const authHeader = hashs.getAuthHeadear(config)
+
   let accountObject;
 
   try {
@@ -205,10 +210,3 @@ const getAccount = function(config, accessToken) {
     });
   }
 };
-
-/**
-  * Converts a string to base64
-  * @param   {String} string       String to be converted
-  * @return  {String}              Converted string
- */
-const toBase64 = (string) => new Buffer(string).toString('base64')
