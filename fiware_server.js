@@ -79,7 +79,8 @@ OAuth.registerService('fiware', 2, null, function(query) {
     serviceData: serviceData,
     options: {
       profile: {
-        //name: response.username // comes from the token request
+        email: identity.email,
+        name: identity.displayName
       }
     }
   };
@@ -107,6 +108,7 @@ OAuth.registerService('fiware', 2, null, function(query) {
 const getTokens = function(config, query) {
   // Endpoint for requesting access token
   const endpoint = config.rootURL + '/oauth2/token';
+  const authHeader = toBase64(`${config.clientId}:${config.secret}`)
 
   // Sets dynamic header with clientId and Secret
   const authHeader = toBase64(`${config.clientId}:${config.secret}`)
@@ -187,7 +189,7 @@ const getAccount = function(config, accessToken) {
   const endpoint = config.rootURL + "/user?access_token=" + accessToken;
   const authHeader = toBase64(`${config.clientId}:${config.secret}`)
   let accountObject;
-
+  
   try {
     accountObject = HTTP.get(
       endpoint, {
