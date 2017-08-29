@@ -52,7 +52,7 @@ Fiware.requestCredential = function(options, credentialRequestCompleteCallback) 
    * We use state to roundtrip a random token to help protect against CSRF (boilerplate)
    */
   // hard coded root url = https://account.lab.fiware.org
-  const loginUrl = endpoints.buildLoginUrl(config)
+  const loginUrl = endpoints.buildLoginUrl(configloginStyle, loginStyle, credentialToken)
 
   /**
    * Client initiates OAuth login request (boilerplate)
