@@ -66,4 +66,59 @@ describe('config file', function() {
     })
   })
 
+  describe('hashs property', function() {
+    it('should be an object', function(done) {
+      // Error variable
+      let err = null
+
+      // Try/Catch statement throws error if hashs is not a object
+      try {
+        // Expects to be object. If not, throw error
+        expect(config.hashs).to.be.an('object')
+      } catch(e) {
+        // Catchs thrown error and sets it to error variable
+        err = e
+      }
+
+      // Test done
+      done(err)
+    })
+
+    describe('getAuthHeader property', function() {
+      it('should be a function', function(done) {
+        // Error variable
+        let err = null
+
+        // Try/Catch statement throws error if getAuthHeader is not a function
+        try {
+          // Expects to be function. If not, throw error
+          expect(typeof config.hashs.getAuthHeader).to.be.equal('function')
+        } catch(e) {
+          // Catchs thrown error and sets it to error variable
+          err = e
+        }
+
+        // Test done
+        done(err)
+      })
+      it('should generate the authentication header from the clientId and secrete', function(done) {
+        // Error variable
+        let err = null
+
+        // Try/Catch statement throws error if getAuthHeader result does not match the expected
+        try {
+          // Expects to be object. If not, throw error
+          expect(config.hashs.getAuthHeader(requestInfo))
+            .to.be.equal(requestInfo.authHeader)
+        } catch(e) {
+          // Catchs thrown error and sets it to error variable
+          err = e
+        }
+
+        // Test done
+        done(err)
+      })
+    })
+  })
+
 })
