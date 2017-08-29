@@ -112,7 +112,7 @@ const getTokens = function(config, query) {
   const endpoint = endpoints.buildGetTokensUrl(config)
 
   // Sets dynamic header with clientId and Secret
-  const authHeader = hashs.getAuthHeadear(config)
+  const authHeader = hashs.getAuthHeader(config)
 
   // POST params for access token request
   const params = {
@@ -190,7 +190,7 @@ const getAccount = function(config, accessToken) {
   const endpoint = endpoints.buildGetAccountsUrl(config, accessToken)
 
   // Authentication header Hash
-  const authHeader = hashs.getAuthHeadear(config)
+  const authHeader = hashs.getAuthHeader(config)
 
   let accountObject;
 

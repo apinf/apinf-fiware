@@ -99,7 +99,7 @@ describe('allowedFields', function() {
     done(err)
   })
 
-  it('should have correct white listed fields', function(done) {
+  it('should have correct allowed fields', function(done) {
     // Correct array of fields to return
     const correctArray = ['id', 'email', 'displayName']
 

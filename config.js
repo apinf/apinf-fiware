@@ -7,7 +7,7 @@ const toBase64 = (string) => new Buffer(string).toString('base64')
 
 // Hardcoded hashes
 const hashs = {
-  getAuthHeadear: (config) => toBase64(`${config.clientId}:${config.secret}`)
+  getAuthHeader: (config) => toBase64(`${config.clientId}:${config.secret}`)
 }
 
 // Hardcoded endpoints
