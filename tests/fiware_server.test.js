@@ -12,7 +12,7 @@ import config from '../config.js'
 import { requestInfo, accessTokenMock, getAccountMock } from './mock.data.js'
 
 // Denfines nock
-const fiwareMock = nock(requestInfo.rootUrl)
+const fiwareMock = nock(requestInfo.rootURL)
 
 // Defines mock for access token request
 fiwareMock
@@ -32,7 +32,7 @@ fiwareMock
 
 // Defines mock for access token request
 const fiwareMockAccountHeaders = nock(
-  requestInfo.rootUrl,
+  requestInfo.rootURL,
   {
     reqheaders: getAccountMock.requestHeaders
   }
