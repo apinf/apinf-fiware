@@ -4,7 +4,12 @@ import { expect } from 'meteor/practicalmeteor:chai'
 import config from '../config.js'
 
 // Basic request info that all mocks use
-import { requestInfo, accessTokenMock, getAccountMock } from './mock.data.js'
+import {
+  requestInfo,
+  accessTokenMock,
+  getAccountMock,
+  configResponse
+} from './mock.data.js'
 
 describe('config file', function() {
   it('should be an object', function(done) {
@@ -101,7 +106,7 @@ describe('config file', function() {
         // Test done
         done(err)
       })
-      it('should generate the authentication header from the clientId and secrete', function(done) {
+      it('should generate the authentication header from the clientId and secret', function(done) {
         // Error variable
         let err = null
 
@@ -110,6 +115,68 @@ describe('config file', function() {
           // Expects to be object. If not, throw error
           expect(config.hashs.getAuthHeader(requestInfo))
             .to.be.equal(requestInfo.authHeader)
+        } catch(e) {
+          // Catchs thrown error and sets it to error variable
+          err = e
+        }
+
+        // Test done
+        done(err)
+      })
+    })
+  })
+
+  describe('endpoints property', function() {
+    it('should be an object', function(done) {
+      // Error variable
+      let err = null
+
+      // Try/Catch statement throws error if endpoints is not a object
+      try {
+        // Expects to be object. If not, throw error
+        expect(config.endpoints).to.be.an('object')
+      } catch(e) {
+        // Catchs thrown error and sets it to error variable
+        err = e
+      }
+
+      // Test done
+      done(err)
+    })
+
+    describe('buildLoginUrl property', function() {
+      it('should be a function', function(done) {
+        // Error variable
+        let err = null
+
+        // Try/Catch statement throws error if buildLoginUrl is not a function
+        try {
+          // Expects to be function. If not, throw error
+          expect(typeof config.endpoints.buildLoginUrl).to.be.equal('function')
+        } catch(e) {
+          // Catchs thrown error and sets it to error variable
+          err = e
+        }
+
+        // Test done
+        done(err)
+      })
+      it('should generate the authentication header from the clientId and secret', function(done) {
+        // Error variable
+        let err = null
+
+        // Correct URl to be compared to the function's result
+        const expectedUrl = requestInfo.rootURL +
+                            '/oauth2/authorize?response_type=code' +
+                            '&client_id=' + requestInfo.clientId +
+                            '&redirect_uri=' + requestInfo.redirectURI +
+                            '&state=' + requestInfo.state
+
+        // Try/Catch statement throws error if buildLoginUrl result does not match the expected
+        try {
+          // Expects to be object. If not, throw error
+          expect(config.endpoints.buildLoginUrl(requestInfo, 'popup', configResponse.credentialToken))
+            .to.be.equal(expectedUrl)
         } catch(e) {
           // Catchs thrown error and sets it to error variable
           err = e
