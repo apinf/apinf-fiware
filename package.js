@@ -24,6 +24,7 @@ Package.onUse(function(api) {
 
   api.addFiles('fiware_server.js', 'server');
   api.addFiles('fiware_client.js', 'client');
+  api.addFiles('config.js', ['client', 'server']);
 });
 
 Npm.depends({
@@ -47,8 +48,9 @@ Package.onTest(function(api) {
     ['fiware_configure.html', 'fiware_configure.js'],
     'client');
 
+  api.addFiles('config.js', ['client', 'server']);
   api.addFiles('fiware_server.js', 'server');
-  // api.addFiles('fiware_client.js', 'client');
+  api.addFiles('tests/config.test.js', 'server');
   api.addFiles('tests/fiware_server.test.js', 'server');
   api.addFiles('tests/fiware_client.test.js', 'client');
 });

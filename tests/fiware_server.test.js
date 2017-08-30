@@ -5,11 +5,14 @@ global.Buffer = global.Buffer || require("buffer").Buffer
 import nock from 'nock'
 import { expect } from 'meteor/practicalmeteor:chai'
 
+// Import all config objects
+import config from '../config.js'
+
 // Basic request info that all mocks use
 import { requestInfo, accessTokenMock, getAccountMock } from './mock.data.js'
 
 // Denfines nock
-const fiwareMock = nock(requestInfo.rootUrl)
+const fiwareMock = nock(requestInfo.rootURL)
 
 // Defines mock for access token request
 fiwareMock
@@ -29,7 +32,7 @@ fiwareMock
 
 // Defines mock for access token request
 const fiwareMockAccountHeaders = nock(
-  requestInfo.rootUrl,
+  requestInfo.rootURL,
   {
     reqheaders: getAccountMock.requestHeaders
   }
@@ -75,6 +78,9 @@ describe('retrieveCredential', function() {
   })
 
 })
+
+
+
 describe('allowedFields', function() {
   it('should be an array', function(done) {
     // Error variable
@@ -93,7 +99,7 @@ describe('allowedFields', function() {
     done(err)
   })
 
-  it('should have correct white listed fields', function(done) {
+  it('should have correct allowed fields', function(done) {
     // Correct array of fields to return
     const correctArray = ['id', 'email', 'displayName']
 

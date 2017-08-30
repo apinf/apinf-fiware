@@ -10,7 +10,7 @@ import { expect } from 'meteor/practicalmeteor:chai'
 import { requestInfo, loginMock } from './mock.data.js'
 
 // Denfines nock
-const fiwareMock = nock(requestInfo.rootUrl)
+const fiwareMock = nock(requestInfo.rootURL)
 
 // Defines mock for the Login URL
 fiwareMock
@@ -51,7 +51,7 @@ describe('requestCredential', function() {
       service: 'fiware',
       clientId: requestInfo.clientId,
       secret: requestInfo.secret,
-      rootURL: requestInfo.rootUrl,
+      rootURL: requestInfo.rootURL,
       redirectURI: 'http://localhost:3000/_oauth/fiware'
     })
 
