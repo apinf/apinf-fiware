@@ -106,6 +106,7 @@ describe('config file', function() {
         // Test done
         done(err)
       })
+
       it('should generate the authentication header from the clientId and secret', function(done) {
         // Error variable
         let err = null
@@ -161,7 +162,8 @@ describe('config file', function() {
         // Test done
         done(err)
       })
-      it('should generate the authentication header from the clientId and secret', function(done) {
+
+      it('should generate loginUrl for the OAuth authentication flow', function(done) {
         // Error variable
         let err = null
 
@@ -174,8 +176,88 @@ describe('config file', function() {
 
         // Try/Catch statement throws error if buildLoginUrl result does not match the expected
         try {
-          // Expects to be object. If not, throw error
+          // Expects to be equal. If not, throw error
           expect(config.endpoints.buildLoginUrl(requestInfo, 'popup', configResponse.credentialToken))
+            .to.be.equal(expectedUrl)
+        } catch(e) {
+          // Catchs thrown error and sets it to error variable
+          err = e
+        }
+
+        // Test done
+        done(err)
+      })
+    })
+
+    describe('buildGetTokensUrl property', function() {
+      it('should be a function', function(done) {
+        // Error variable
+        let err = null
+
+        // Try/Catch statement throws error if buildGetTokensUrl is not a function
+        try {
+          // Expects to be function. If not, throw error
+          expect(typeof config.endpoints.buildGetTokensUrl).to.be.equal('function')
+        } catch(e) {
+          // Catchs thrown error and sets it to error variable
+          err = e
+        }
+
+        // Test done
+        done(err)
+      })
+
+      it('should generate getToken URL for the OAuth authentication flow', function(done) {
+        // Error variable
+        let err = null
+
+        // Correct URl to be compared to the function's result
+        const expectedUrl = requestInfo.rootURL + '/oauth2/token'
+
+        // Try/Catch statement throws error if buildGetTokensUrl result does not match the expected
+        try {
+          // Expects to be equal. If not, throw error
+          expect(config.endpoints.buildGetTokensUrl(requestInfo))
+            .to.be.equal(expectedUrl)
+        } catch(e) {
+          // Catchs thrown error and sets it to error variable
+          err = e
+        }
+
+        // Test done
+        done(err)
+      })
+    })
+
+    describe('buildGetAccountsUrl property', function() {
+      it('should be a function', function(done) {
+        // Error variable
+        let err = null
+
+        // Try/Catch statement throws error if buildGetAccountsUrl is not a function
+        try {
+          // Expects to be function. If not, throw error
+          expect(typeof config.endpoints.buildGetAccountsUrl).to.be.equal('function')
+        } catch(e) {
+          // Catchs thrown error and sets it to error variable
+          err = e
+        }
+
+        // Test done
+        done(err)
+      })
+
+      it('should generate getAccounts URL for the OAuth authentication flow', function(done) {
+        // Error variable
+        let err = null
+
+        // Correct URl to be compared to the function's result
+        const expectedUrl = requestInfo.rootURL + "/user?access_token=" + accessTokenMock.responseBody.access_token
+
+        // Try/Catch statement throws error if buildGetAccountsUrl result does not match the expected
+        try {
+          // Expects to be equal. If not, throw error
+          expect(config.endpoints.buildGetAccountsUrl(requestInfo, accessTokenMock.responseBody.access_token))
             .to.be.equal(expectedUrl)
         } catch(e) {
           // Catchs thrown error and sets it to error variable
