@@ -11,7 +11,6 @@ app.use(express.static(path.resolve(__dirname) + '/public'))
 app.use(cors())
 
 app.get('/oauth2/authorize', (req, res) => {
-
   if (
     req.query.response_type == 'code' &&
     req.query.client_id == data.requestInfo.clientId &&

@@ -1,6 +1,6 @@
 'use strict';
 
-import { endpoints, hashs } from './config.js'
+import fiwareOauthConfig from './fiware_oauth_config.js'
 
 /**
  * Define the base object namespace. By convention we use the service name
@@ -36,17 +36,17 @@ OAuth.registerService('fiware', 2, null, function(query) {
   /**
    * Make sure we have a config object for subsequent use (boilerplate)
    */
-  const config = ServiceConfiguration.configurations.findOne({
+  const fiwareServiceConfiguration = ServiceConfiguration.configurations.findOne({
     service: 'fiware'
   });
-  if (!config) {
+  if (!fiwareServiceConfiguration) {
     throw new ServiceConfiguration.ConfigError();
   }
 
   /**
    * Get the token (Meteor handles the underlying authorization flow).
    */
-  const response = getTokens(config, query);
+  const response = getTokens(fiwareServiceConfiguration, query);
   const accessToken = response.accessToken;
 
   /**
@@ -54,7 +54,7 @@ OAuth.registerService('fiware', 2, null, function(query) {
    * to complete our serviceData request.
   */
   const identity = _.extend(
-    getAccount(config, accessToken)
+    getAccount(fiwareServiceConfiguration, accessToken)
   );
 
   /**
@@ -103,21 +103,21 @@ OAuth.registerService('fiware', 2, null, function(query) {
  *   refreshToken       {String}    If this is the first authorization request
  *   token_type         {String}    Set to 'Bearer'
  *
- * @param   {Object} config       The OAuth configuration object
- * @param   {Object} query        The OAuth query object
- * @return  {Object}              The response from the token request (see above)
+ * @param   {Object} fiwareServiceConfiguration       The OAuth configuration object
+ * @param   {Object} query                            The OAuth query object
+ * @return  {Object}                                  The response from the token request (see above)
  */
-const getTokens = function(config, query) {
+const getTokens = function(fiwareServiceConfiguration, query) {
   // Endpoint for requesting access token
-  const endpoint = endpoints.buildGetTokensUrl(config)
+  const endpoint = fiwareOauthConfig.endpoints.buildGetTokensUrl(fiwareServiceConfiguration)
 
   // Sets dynamic header with clientId and Secret
-  const authHeader = hashs.getAuthHeader(config)
+  const authHeader = fiwareOauthConfig.hashs.getAuthHeader(fiwareServiceConfiguration)
 
   // POST params for access token request
   const params = {
     code: query.code,
-    redirect_uri: config.redirectURI,
+    redirect_uri: fiwareServiceConfiguration.redirectURI,
     grant_type: 'authorization_code'
   }
 
@@ -181,16 +181,16 @@ const getTokens = function(config, query) {
  *   organizations: []
  * }
  *
- * @param   {Object} config       The OAuth configuration object
- * @param   {String} accessToken  The OAuth access token
- * @return  {Object}              The response from the account request (see above)
+ * @param   {Object} fiwareServiceConfiguration       The OAuth configuration object
+ * @param   {String} accessToken                      The OAuth access token
+ * @return  {Object}                                  The response from the account request (see above)
  */
-const getAccount = function(config, accessToken) {
+const getAccount = function(fiwareServiceConfiguration, accessToken) {
   // Endpoint to request account data
-  const endpoint = endpoints.buildGetAccountsUrl(config, accessToken)
+  const endpoint = fiwareOauthConfig.endpoints.buildGetAccountsUrl(fiwareServiceConfiguration, accessToken);
 
   // Authentication header Hash
-  const authHeader = hashs.getAuthHeader(config)
+  const authHeader = fiwareOauthConfig.hashs.getAuthHeader(fiwareServiceConfiguration);
 
   let accountObject;
 
@@ -202,11 +202,11 @@ const getAccount = function(config, accessToken) {
         }
       }
     ).data;
-    return accountObject;
-
   } catch (err) {
     throw _.extend(new Error(`Failed to fetch account data from FIWARE IdM. ${err.message}`), {
       response: err.response
     });
   }
+
+  return accountObject;
 };

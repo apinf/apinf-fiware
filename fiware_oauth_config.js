@@ -1,9 +1,14 @@
 /**
+ * General configuration file for FIWARE Oauth IdM
+ * Documentation: http://fiware-idm.readthedocs.io/en/latest/oauth2.html#oauth2-authentication
+ */
+
+/**
 * Converts a string to base64
 * @param   {String} string       String to be converted
 * @return  {String}              Converted string
 */
-const toBase64 = (string) => new Buffer(string).toString('base64')
+const toBase64 = (string) => new Buffer(string).toString('base64');
 
 /**
  * This is an actual copied and paste function from the Meteor OAuth package.
@@ -53,11 +58,10 @@ const endpoints = {
   )
 }
 
-const config = {
-  toBase64,
+const fiwareOauthConfig = {
   endpoints,
   hashs
 }
 
 // Exporting configs
-export default config
+export default fiwareOauthConfig;

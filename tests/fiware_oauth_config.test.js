@@ -1,9 +1,10 @@
+// Meteor contributed packages imports
 import { expect } from 'meteor/practicalmeteor:chai'
 
-// Import all config objects
-import config from '../config.js'
+// Import fiware outh configuration
+import fiwareOauthConfig from '../fiware_oauth_config.js'
 
-// Basic request info that all mocks use
+// Import basic request info that all mocks use
 import {
   requestInfo,
   accessTokenMock,
@@ -11,64 +12,22 @@ import {
   configResponse
 } from './mock.data.js'
 
-describe('config file', function() {
+describe('fiware oauth config file', function() {
   it('should be an object', function(done) {
     // Error variable
     let err = null
 
     // Try/Catch statement throws error if config is an array
     try {
-      // Expects to be object. If not, throw error
-      expect(config).to.be.an('object')
+      // Expect to be object. If not, throw error
+      expect(fiwareOauthConfig).to.be.an('object')
     } catch(e) {
-      // Catchs thrown error and sets it to error variable
+      // Catch thrown error and sets it to error variable
       err = e
     }
 
     // Test done
     done(err)
-  })
-
-  describe('toBase64 property', function() {
-    it('should be a function', function(done) {
-      // Error variable
-      let err = null
-
-      // Try/Catch statement throws error if toBase64 is not a function
-      try {
-        // Expects to be function. If not, throw error
-        expect(typeof config.toBase64).to.be.equal('function')
-      } catch(e) {
-        // Catchs thrown error and sets it to error variable
-        err = e
-      }
-
-      // Test done
-      done(err)
-    })
-
-    it('should encode string to base 64', function(done) {
-      // Error variable
-      let err = null
-
-      // String to be enconded on test
-      const stringToTest = 'string'
-
-      // Encoded string to be compared to function result
-      const base64OfStringToTest = 'c3RyaW5n'
-
-      // Try/Catch statement throws error if string don't match
-      try {
-        // Expects to be equal. If not, throw error
-        expect(config.toBase64(stringToTest)).to.be.equal(base64OfStringToTest)
-      } catch(e) {
-        // Catchs thrown error and sets it to error variable
-        err = e
-      }
-
-      // Test done
-      done(err)
-    })
   })
 
   describe('hashs property', function() {
@@ -78,8 +37,8 @@ describe('config file', function() {
 
       // Try/Catch statement throws error if hashs is not a object
       try {
-        // Expects to be object. If not, throw error
-        expect(config.hashs).to.be.an('object')
+        // Expect to be object. If not, throw error
+        expect(fiwareOauthConfig.hashs).to.be.an('object')
       } catch(e) {
         // Catchs thrown error and sets it to error variable
         err = e
@@ -96,10 +55,10 @@ describe('config file', function() {
 
         // Try/Catch statement throws error if getAuthHeader is not a function
         try {
-          // Expects to be function. If not, throw error
-          expect(typeof config.hashs.getAuthHeader).to.be.equal('function')
+          // Expect to be function. If not, throw error
+          expect(typeof fiwareOauthConfig.hashs.getAuthHeader).to.be.equal('function')
         } catch(e) {
-          // Catchs thrown error and sets it to error variable
+          // Catch thrown error and sets it to error variable
           err = e
         }
 
@@ -113,11 +72,11 @@ describe('config file', function() {
 
         // Try/Catch statement throws error if getAuthHeader result does not match the expected
         try {
-          // Expects to be object. If not, throw error
-          expect(config.hashs.getAuthHeader(requestInfo))
+          // Expect to be object. If not, throw error
+          expect(fiwareOauthConfig.hashs.getAuthHeader(requestInfo))
             .to.be.equal(requestInfo.authHeader)
         } catch(e) {
-          // Catchs thrown error and sets it to error variable
+          // Catch thrown error and sets it to error variable
           err = e
         }
 
@@ -134,10 +93,10 @@ describe('config file', function() {
 
       // Try/Catch statement throws error if endpoints is not a object
       try {
-        // Expects to be object. If not, throw error
-        expect(config.endpoints).to.be.an('object')
+        // Expect to be object. If not, throw error
+        expect(fiwareOauthConfig.endpoints).to.be.an('object')
       } catch(e) {
-        // Catchs thrown error and sets it to error variable
+        // Catch thrown error and sets it to error variable
         err = e
       }
 
@@ -152,10 +111,10 @@ describe('config file', function() {
 
         // Try/Catch statement throws error if buildLoginUrl is not a function
         try {
-          // Expects to be function. If not, throw error
-          expect(typeof config.endpoints.buildLoginUrl).to.be.equal('function')
+          // Expect to be function. If not, throw error
+          expect(typeof fiwareOauthConfig.endpoints.buildLoginUrl).to.be.equal('function')
         } catch(e) {
-          // Catchs thrown error and sets it to error variable
+          // Catch thrown error and sets it to error variable
           err = e
         }
 
@@ -176,11 +135,11 @@ describe('config file', function() {
 
         // Try/Catch statement throws error if buildLoginUrl result does not match the expected
         try {
-          // Expects to be equal. If not, throw error
-          expect(config.endpoints.buildLoginUrl(requestInfo, 'popup', configResponse.credentialToken))
+          // Expect to be equal. If not, throw error
+          expect(fiwareOauthConfig.endpoints.buildLoginUrl(requestInfo, 'popup', configResponse.credentialToken))
             .to.be.equal(expectedUrl)
         } catch(e) {
-          // Catchs thrown error and sets it to error variable
+          // Catch thrown error and sets it to error variable
           err = e
         }
 
@@ -196,10 +155,10 @@ describe('config file', function() {
 
         // Try/Catch statement throws error if buildGetTokensUrl is not a function
         try {
-          // Expects to be function. If not, throw error
-          expect(typeof config.endpoints.buildGetTokensUrl).to.be.equal('function')
+          // Expect to be function. If not, throw error
+          expect(typeof fiwareOauthConfig.endpoints.buildGetTokensUrl).to.be.equal('function')
         } catch(e) {
-          // Catchs thrown error and sets it to error variable
+          // Catch thrown error and sets it to error variable
           err = e
         }
 
@@ -216,11 +175,11 @@ describe('config file', function() {
 
         // Try/Catch statement throws error if buildGetTokensUrl result does not match the expected
         try {
-          // Expects to be equal. If not, throw error
-          expect(config.endpoints.buildGetTokensUrl(requestInfo))
+          // Expect to be equal. If not, throw error
+          expect(fiwareOauthConfig.endpoints.buildGetTokensUrl(requestInfo))
             .to.be.equal(expectedUrl)
         } catch(e) {
-          // Catchs thrown error and sets it to error variable
+          // Catch thrown error and sets it to error variable
           err = e
         }
 
@@ -236,10 +195,10 @@ describe('config file', function() {
 
         // Try/Catch statement throws error if buildGetAccountsUrl is not a function
         try {
-          // Expects to be function. If not, throw error
-          expect(typeof config.endpoints.buildGetAccountsUrl).to.be.equal('function')
+          // Expect to be function. If not, throw error
+          expect(typeof fiwareOauthConfig.endpoints.buildGetAccountsUrl).to.be.equal('function')
         } catch(e) {
-          // Catchs thrown error and sets it to error variable
+          // Catch thrown error and sets it to error variable
           err = e
         }
 
@@ -256,11 +215,11 @@ describe('config file', function() {
 
         // Try/Catch statement throws error if buildGetAccountsUrl result does not match the expected
         try {
-          // Expects to be equal. If not, throw error
-          expect(config.endpoints.buildGetAccountsUrl(requestInfo, accessTokenMock.responseBody.access_token))
+          // Expect to be equal. If not, throw error
+          expect(fiwareOauthConfig.endpoints.buildGetAccountsUrl(requestInfo, accessTokenMock.responseBody.access_token))
             .to.be.equal(expectedUrl)
         } catch(e) {
-          // Catchs thrown error and sets it to error variable
+          // Catch thrown error and sets it to error variable
           err = e
         }
 
@@ -269,5 +228,4 @@ describe('config file', function() {
       })
     })
   })
-
 })

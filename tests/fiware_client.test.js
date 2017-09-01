@@ -1,18 +1,19 @@
 // Buffer has to be defined in this version of Meteor
 global.Buffer = global.Buffer || require("buffer").Buffer
 
-// Dependencies imports
-import nock from 'nock'
+// Meteor contributed packages imports
 import { expect } from 'meteor/practicalmeteor:chai'
 
+// NPM imports
+import nock from 'nock'
 
-// Basic request info that all mocks use
+// Import basic request info that all mocks use
 import { requestInfo, loginMock } from './mock.data.js'
 
-// Denfines nock
+// Use nock to mock rootURL
 const fiwareMock = nock(requestInfo.rootURL)
 
-// Defines mock for the Login URL
+// Define mock for the Login URL
 fiwareMock
   .get(
     loginMock.path,
@@ -31,22 +32,23 @@ describe('requestCredential', function() {
     // Try/Catch statement throws error if Fiware.requestCredential is not a function
     try {
 
-      // Expects to be function. If not, throws error
+      // Expect to be function. If not, throws error
       expect(typeof Fiware.requestCredential).to.be.equal('function')
     } catch(e) {
 
-      // Catchs thrown error and sets it to error variable
+      // Catch thrown error and sets it to error variable
       err = e
     }
 
     // Test done
     done(err)
   })
+
   it('should return valid credentialToken', function(done) {
-    // Timeout for the request
+    // Set timeout for the request
     this.timeout(5000)
 
-    // Sets configuration o test DB
+    // Set configuration o test DB
     ServiceConfiguration.configurations.insert({
       service: 'fiware',
       clientId: requestInfo.clientId,
@@ -64,11 +66,11 @@ describe('requestCredential', function() {
       // is not a valid credential
       try {
 
-        // Throws error if the new credential is not valid
+        // Throw error if the new credential is not valid
         expect(res.length).to.be.equal(Random.secret().length)
       } catch(e) {
 
-        // Catchs thrown error and sets it to error variable
+        // Catch thrown error and sets it to error variable
         err = e
       }
 

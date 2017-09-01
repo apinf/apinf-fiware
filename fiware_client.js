@@ -1,6 +1,6 @@
 'use strict';
 
-import { endpoints, hashs } from './config.js'
+import fiwareOauthConfig from './fiware_oauth_config.js'
 
 /**
  * Define the base object namespace. By convention we use the service name
@@ -29,10 +29,11 @@ Fiware.requestCredential = function(options, credentialRequestCompleteCallback) 
   /**
    * Make sure we have a config object for subsequent use (boilerplate)
    */
-  const config = ServiceConfiguration.configurations.findOne({
+  const fiwareServiceConfiguration = ServiceConfiguration.configurations.findOne({
     service: 'fiware'
   });
-  if (!config) {
+
+  if (!fiwareServiceConfiguration) {
     credentialRequestCompleteCallback && credentialRequestCompleteCallback(
       new ServiceConfiguration.ConfigError()
     );
@@ -43,7 +44,7 @@ Fiware.requestCredential = function(options, credentialRequestCompleteCallback) 
    * Boilerplate
    */
   const credentialToken = Random.secret();
-  const loginStyle = OAuth._loginStyle('fiware', config, options);
+  const loginStyle = OAuth._loginStyle('fiware', fiwareServiceConfiguration, options);
 
   /**
    * The response_type attribute is mandatory and must be set to code. The client_id attribute is the one provided by the
@@ -52,7 +53,7 @@ Fiware.requestCredential = function(options, credentialRequestCompleteCallback) 
    * We use state to roundtrip a random token to help protect against CSRF (boilerplate)
    */
   // hard coded root url = https://account.lab.fiware.org
-  const loginUrl = endpoints.buildLoginUrl(configloginStyle, loginStyle, credentialToken)
+  const loginUrl = fiwareOauthConfig.endpoints.buildLoginUrl(fiwareServiceConfiguration, loginStyle, credentialToken);
 
   /**
    * Client initiates OAuth login request (boilerplate)
