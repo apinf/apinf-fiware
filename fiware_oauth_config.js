@@ -1,9 +1,19 @@
 /**
+ * General configuration file for FIWARE Oauth IdM
+ * Documentation: http://fiware-idm.readthedocs.io/en/latest/oauth2.html#oauth2-authentication
+ */
+
+/**
 * Converts a string to base64
 * @param   {String} string       String to be converted
 * @return  {String}              Converted string
 */
-const toBase64 = (string) => new Buffer(string).toString('base64')
+const toBase64 = (string) => new Buffer(string).toString('base64');
+
+/**
+ * Redirect URI required for token and login
+ */
+const redirectURI = Meteor.absoluteUrl() + '_oauth/fiware';
 
 /**
  * This is an actual copied and paste function from the Meteor OAuth package.
@@ -36,28 +46,30 @@ const hashs = {
 // Hardcoded endpoints
 const endpoints = {
 
-  // Function that builds loginUrl dynamicaly with the config object
+  // Function that builds loginUrl dynamicaly using service config object
   buildLoginUrl: (config, loginStyle, credentialToken) => (
     config.rootURL + '/oauth2/authorize?response_type=code' +
     '&client_id=' + config.clientId +
-    '&redirect_uri=' + config.redirectURI + '&state=' +
+    '&redirect_uri=' + redirectURI + '&state=' +
     (OAuth._stateParam? OAuth._stateParam(loginStyle, credentialToken) : getStateParam(loginStyle, credentialToken))
   ),
 
-  // Function that builds getTokens Url dynamicaly with the config object
-  buildGetTokensUrl: (config) => config.rootURL + '/oauth2/token',
+  // Function that builds getToken Url dynamicaly using service config object
+  buildTokenUrl: (config) => config.rootURL + '/oauth2/token',
 
-  // Function that builds getAccounts Url dynamicaly with the config object
-  buildGetAccountsUrl: (config, accessToken) => (
+  // Function that builds getAccountUrl dynamically using service config object
+  buildAccountUrl: (config, accessToken) => (
     config.rootURL + "/user?access_token=" + accessToken
-  )
+  ),
+
+  // Parameter for getTokens
+  redirectURI: redirectURI
 }
 
-const config = {
-  toBase64,
+const fiwareOauthConfig = {
   endpoints,
   hashs
 }
 
 // Exporting configs
-export default config
+export default fiwareOauthConfig;

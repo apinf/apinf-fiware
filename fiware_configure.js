@@ -6,8 +6,7 @@ Template.configureLoginServiceDialogForFiware.helpers({
 
 Template.configureLoginServiceDialogForFiware.fields = function () {
   return [
-    {property: "rootURL", label: "Root URL"},
-    {property: "redirectURI", label: "Redirect URI"},
+    {property: "rootURL", label: "FIWARE IdM URL"},
     {property: 'clientId', label: 'Client Id'},
     {property: 'secret', label: 'Client Secret'}
   ];

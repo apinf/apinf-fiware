@@ -1,20 +1,19 @@
 // Buffer has to be defined in this version of Meteor
 global.Buffer = global.Buffer || require("buffer").Buffer
 
-// Dependencies imports
-import nock from 'nock'
+// Meteor contributed packages imports
 import { expect } from 'meteor/practicalmeteor:chai'
 
-// Import all config objects
-import config from '../config.js'
+// NPM imports
+import nock from 'nock'
 
-// Basic request info that all mocks use
+// Import basic request info that all mocks use
 import { requestInfo, accessTokenMock, getAccountMock } from './mock.data.js'
 
-// Denfines nock
+// Use nock to mock rootURL
 const fiwareMock = nock(requestInfo.rootURL)
 
-// Defines mock for access token request
+// Define mock for access token request
 fiwareMock
   // Changes randomly generated code to pre-determined one
   .filteringRequestBody(
@@ -30,7 +29,7 @@ fiwareMock
     accessTokenMock.responseBody
   )
 
-// Defines mock for access token request
+// Define mock for access token request
 const fiwareMockAccountHeaders = nock(
   requestInfo.rootURL,
   {
@@ -38,7 +37,7 @@ const fiwareMockAccountHeaders = nock(
   }
 )
 
-// Defines accesstoken URL to intercept and reply data
+// Define accesstoken URL to intercept and reply data
 fiwareMockAccountHeaders
   .get(
     `${getAccountMock.path}?access_token=${getAccountMock.requestParams.access_token}`
@@ -65,11 +64,11 @@ describe('retrieveCredential', function() {
     // Try/Catch statement throws error if Fiware.retrieveCredential is not a function
     try {
 
-      // Expects to be function. If not, throw error
+      // Expect to be function. If not, throw error
       expect(typeof Fiware.retrieveCredential).to.be.equal('function')
     } catch(e) {
 
-      // Catchs thrown error and sets it to error variable
+      // Catch thrown error and sets it to error variable
       err = e
     }
 
@@ -79,8 +78,6 @@ describe('retrieveCredential', function() {
 
 })
 
-
-
 describe('allowedFields', function() {
   it('should be an array', function(done) {
     // Error variable
@@ -88,10 +85,10 @@ describe('allowedFields', function() {
 
     // Try/Catch statement throws error if Fiware.allowedFields is an array
     try {
-      // Expects to be array. If not, throw error
+      // Expect to be array. If not, throw error
       expect(Fiware.allowedFields).to.be.an('array')
     } catch(e) {
-      // Catchs thrown error and sets it to error variable
+      // Catch thrown error and sets it to error variable
       err = e
     }
 
@@ -100,10 +97,10 @@ describe('allowedFields', function() {
   })
 
   it('should have correct allowed fields', function(done) {
-    // Correct array of fields to return
+    // Declare correct array of fields to return
     const correctArray = ['id', 'email', 'displayName']
 
-    // variable to determine if array is match or not
+    // Declare variable to determine if array is match or not
     let arraysMatch = true
 
     // Error variable
@@ -123,7 +120,7 @@ describe('allowedFields', function() {
       expect(arraysMatch).to.be.ok
     } catch(e) {
 
-      // Catchs thrown error and sets it to error variable
+      // Catch thrown error and sets it to error variable
       err = e
     }
 
