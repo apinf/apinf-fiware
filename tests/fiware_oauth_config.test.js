@@ -148,15 +148,15 @@ describe('fiware oauth config file', function() {
       })
     })
 
-    describe('buildGetTokensUrl property', function() {
+    describe('buildTokenUrl property', function() {
       it('should be a function', function(done) {
         // Error variable
         let err = null
 
-        // Try/Catch statement throws error if buildGetTokensUrl is not a function
+        // Try/Catch statement throws error if buildTokenUrl is not a function
         try {
           // Expect to be function. If not, throw error
-          expect(typeof fiwareOauthConfig.endpoints.buildGetTokensUrl).to.be.equal('function')
+          expect(typeof fiwareOauthConfig.endpoints.buildTokenUrl).to.be.equal('function')
         } catch(e) {
           // Catch thrown error and sets it to error variable
           err = e
@@ -166,17 +166,17 @@ describe('fiware oauth config file', function() {
         done(err)
       })
 
-      it('should generate getToken URL for the OAuth authentication flow', function(done) {
+      it('should generate token URL for the OAuth authentication flow', function(done) {
         // Error variable
         let err = null
 
         // Correct URl to be compared to the function's result
         const expectedUrl = requestInfo.rootURL + '/oauth2/token'
 
-        // Try/Catch statement throws error if buildGetTokensUrl result does not match the expected
+        // Try/Catch statement throws error if buildTokenUrl result does not match the expected
         try {
           // Expect to be equal. If not, throw error
-          expect(fiwareOauthConfig.endpoints.buildGetTokensUrl(requestInfo))
+          expect(fiwareOauthConfig.endpoints.buildTokenUrl(requestInfo))
             .to.be.equal(expectedUrl)
         } catch(e) {
           // Catch thrown error and sets it to error variable
@@ -188,15 +188,15 @@ describe('fiware oauth config file', function() {
       })
     })
 
-    describe('buildGetAccountsUrl property', function() {
+    describe('buildAccountUrl property', function() {
       it('should be a function', function(done) {
         // Error variable
         let err = null
 
-        // Try/Catch statement throws error if buildGetAccountsUrl is not a function
+        // Try/Catch statement throws error if buildAccountUrl is not a function
         try {
           // Expect to be function. If not, throw error
-          expect(typeof fiwareOauthConfig.endpoints.buildGetAccountsUrl).to.be.equal('function')
+          expect(typeof fiwareOauthConfig.endpoints.buildAccountUrl).to.be.equal('function')
         } catch(e) {
           // Catch thrown error and sets it to error variable
           err = e
@@ -206,17 +206,17 @@ describe('fiware oauth config file', function() {
         done(err)
       })
 
-      it('should generate getAccounts URL for the OAuth authentication flow', function(done) {
+      it('should generate account URL for the OAuth authentication flow', function(done) {
         // Error variable
         let err = null
 
         // Correct URl to be compared to the function's result
         const expectedUrl = requestInfo.rootURL + "/user?access_token=" + accessTokenMock.responseBody.access_token
 
-        // Try/Catch statement throws error if buildGetAccountsUrl result does not match the expected
+        // Try/Catch statement throws error if buildAccountUrl result does not match the expected
         try {
           // Expect to be equal. If not, throw error
-          expect(fiwareOauthConfig.endpoints.buildGetAccountsUrl(requestInfo, accessTokenMock.responseBody.access_token))
+          expect(fiwareOauthConfig.endpoints.buildAccountUrl(requestInfo, accessTokenMock.responseBody.access_token))
             .to.be.equal(expectedUrl)
         } catch(e) {
           // Catch thrown error and sets it to error variable

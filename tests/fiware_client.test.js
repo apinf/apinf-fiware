@@ -53,8 +53,7 @@ describe('requestCredential', function() {
       service: 'fiware',
       clientId: requestInfo.clientId,
       secret: requestInfo.secret,
-      rootURL: requestInfo.rootURL,
-      redirectURI: 'http://localhost:3000/_oauth/fiware'
+      rootURL: requestInfo.rootURL
     })
 
     // Request credential

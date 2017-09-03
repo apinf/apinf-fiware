@@ -92,7 +92,6 @@ OAuth.registerService('fiware', 2, null, function(query) {
  * The following three utility functions are called in the above code to get
  *  the access_token and refresh_token (getTokens)
  *  account data (getAccount)
- *  settings data (getSettings)
  * repectively.
  */
 
@@ -109,7 +108,7 @@ OAuth.registerService('fiware', 2, null, function(query) {
  */
 const getTokens = function(fiwareServiceConfiguration, query) {
   // Endpoint for requesting access token
-  const endpoint = fiwareOauthConfig.endpoints.buildGetTokensUrl(fiwareServiceConfiguration)
+  const tokenUrl = fiwareOauthConfig.endpoints.buildTokenUrl(fiwareServiceConfiguration)
 
   // Sets dynamic header with clientId and Secret
   const authHeader = fiwareOauthConfig.hashs.getAuthHeader(fiwareServiceConfiguration)
@@ -117,7 +116,7 @@ const getTokens = function(fiwareServiceConfiguration, query) {
   // POST params for access token request
   const params = {
     code: query.code,
-    redirect_uri: fiwareServiceConfiguration.redirectURI,
+    redirect_uri: fiwareOauthConfig.endpoints.redirectURI,
     grant_type: 'authorization_code'
   }
 
@@ -133,7 +132,7 @@ const getTokens = function(fiwareServiceConfiguration, query) {
   let response;
   try {
     response = HTTP.post(
-      endpoint, {
+      tokenUrl, {
         params,
         headers
       });
@@ -187,7 +186,7 @@ const getTokens = function(fiwareServiceConfiguration, query) {
  */
 const getAccount = function(fiwareServiceConfiguration, accessToken) {
   // Endpoint to request account data
-  const endpoint = fiwareOauthConfig.endpoints.buildGetAccountsUrl(fiwareServiceConfiguration, accessToken);
+  const accountUrl = fiwareOauthConfig.endpoints.buildAccountUrl(fiwareServiceConfiguration, accessToken);
 
   // Authentication header Hash
   const authHeader = fiwareOauthConfig.hashs.getAuthHeader(fiwareServiceConfiguration);
@@ -196,7 +195,7 @@ const getAccount = function(fiwareServiceConfiguration, accessToken) {
 
   try {
     accountObject = HTTP.get(
-      endpoint, {
+      accountUrl, {
         headers: {
           Authorization: `Basic ${authHeader}`
         }
