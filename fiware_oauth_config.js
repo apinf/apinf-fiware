@@ -11,6 +11,11 @@
 const toBase64 = (string) => new Buffer(string).toString('base64');
 
 /**
+ * Redirect URI required for token and login
+ */
+const redirectURI = Meteor.absoluteUrl() + '_oauth/fiware';
+
+/**
  * This is an actual copied and paste function from the Meteor OAuth package.
  * This function is only defined on the client side for the OAuth and, since the
  * config.test.js is running on the server side, it needs to be defined here to
@@ -45,7 +50,7 @@ const endpoints = {
   buildLoginUrl: (config, loginStyle, credentialToken) => (
     config.rootURL + '/oauth2/authorize?response_type=code' +
     '&client_id=' + config.clientId +
-    `&redirect_uri=${Meteor.absoluteUrl()}_oauth/fiware` + '&state=' +
+    '&redirect_uri=' + redirectURI + '&state=' +
     (OAuth._stateParam? OAuth._stateParam(loginStyle, credentialToken) : getStateParam(loginStyle, credentialToken))
   ),
 
@@ -58,7 +63,7 @@ const endpoints = {
   ),
 
   // Parameter for getTokens
-  redirectURI: `${Meteor.absoluteUrl()}_oauth/fiware`
+  redirectURI: redirectURI
 }
 
 const fiwareOauthConfig = {
