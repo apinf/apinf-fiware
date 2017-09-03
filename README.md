@@ -16,18 +16,10 @@ See also the [complementary login package](https://github.com/apinf/apinf-accoun
 
 ## Installation
 
-`meteor add apinf:fiware`
+Install `meteor add apinf:accounts-fiware` and this package will be automatically installed
 
-### Local installation (development):
+## Changelog
 
-Install `apinf:fiware` locally (without downloading from atmosphere), by downloading it and [`apinf:accounts-fiware`](https://github.com/apinf/apinf-accounts-fiware) package on the same directory, and settting `METEOR_PACKAGE_DIRS` to this directory.
+**v0.1.1** Documentation update
 
-- Linux/MacOS:
-  
- To set the variable in Linux or MacOS, open the shell file (.bashrc, .zshrc) and write the following code in the end of your file:
-
-  **export METEOR_PACKAGE_DIRS="/path/to/packages"**
-  
-- Windows:
-  
-  To set the variable in windows go to the environment variable window, in the system variable session, add a new variable called **METEOR_PACKAGE_DIRS** and set the directory where you downloaded the packages.
+**v0.1.0** Initial Release

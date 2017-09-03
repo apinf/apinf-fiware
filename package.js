@@ -1,6 +1,6 @@
 Package.describe({
   name: 'apinf:fiware',
-  version: '0.1.0',
+  version: '0.1.1',
   summary: 'OAuth handler for FIWARE IdM',
   git: 'https://github.com/apinf/apinf-fiware',
   documentation: 'README.md'
