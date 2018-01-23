@@ -63,10 +63,12 @@ OAuth.registerService('fiware', 2, null, function(query) {
    *  expiresAt, as a ms epochtime
    *  refreshToken, if there is one
    *  id - note that there *must* be an id property for Meteor to work with
+   *  username - this field is required during the first login attempt, equals the id in FIWARE
    */
   const serviceData = {
     accessToken,
-    expiresAt: (+new Date) + (1000 * response.expiresIn)
+    expiresAt: (+new Date) + (1000 * response.expiresIn),
+    username: identity.id
   };
   if (response.refreshToken) {
     serviceData.refreshToken = response.refreshToken;
