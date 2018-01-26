@@ -20,6 +20,8 @@ Install `meteor add apinf:accounts-fiware` and this package will be automaticall
 
 ## Changelog
 
+**v0.1.3** Version management fix
+
 **v0.1.2** Minor bugfix to Meteor login
 
 **v0.1.1** Documentation update
