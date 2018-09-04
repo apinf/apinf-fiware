@@ -59,7 +59,7 @@ const endpoints = {
 
   // Function that builds getAccountUrl dynamically using service config object
   buildAccountUrl: (config, accessToken) => (
-    config.rootURL + "/user?access_token=" + accessToken
+    config.rootURL + "/user"
   ),
 
   // Parameter for getTokens
