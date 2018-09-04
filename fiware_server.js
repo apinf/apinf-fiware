@@ -188,21 +188,15 @@ const getTokens = function(fiwareServiceConfiguration, query) {
  */
 const getAccount = function(fiwareServiceConfiguration, accessToken) {
   // Endpoint to request account data
-  const accountUrl = fiwareOauthConfig.endpoints.buildAccountUrl(fiwareServiceConfiguration, accessToken);
-
-  // Authentication header Hash
-  const authHeader = fiwareOauthConfig.hashs.getAuthHeader(fiwareServiceConfiguration);
-
-  let accountObject;
+  var accountUrl = fiwareOauthConfig.endpoints.buildAccountUrl(fiwareServiceConfiguration, accessToken);
+  var accountObject = void 0;
 
   try {
-    accountObject = HTTP.get(
-      accountUrl, {
-        headers: {
-          Authorization: `Basic ${authHeader}`
-        }
+    accountObject = HTTP.get(accountUrl, {
+      headers: {
+        Authorization: "Bearer " + accessToken
       }
-    ).data;
+    }).data;
   } catch (err) {
     throw _.extend(new Error(`Failed to fetch account data from FIWARE IdM. ${err.message}`), {
       response: err.response
