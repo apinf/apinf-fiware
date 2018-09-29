@@ -1,6 +1,6 @@
 {
   "name": "apinf-fiware",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "description": "oAuth package to integrate FIWARE oAuth Service to APinf platform",
   "author": "APinf.io",
   "license": "MIT",
