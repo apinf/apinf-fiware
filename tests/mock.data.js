@@ -67,14 +67,15 @@ const getAccountMock = {
   responseHeaders: {},
   responseBody: {
     organizations: [],
-    displayName: 'vellames',
+    displayName: '',
     roles: [
       { name: 'provider', id: '106' }
     ],
     app_id: requestInfo.clientId,
     isGravatarEnabled: false,
-      email: 'c.vellames@outlook.com',
-    id: 'vellames'
+    email: 'c.vellames@outlook.com',
+    id: 'a76ce409-5ee2-4200-b3ec-89a7109bb00e',
+    username: "vellames"
   }
 }
 
