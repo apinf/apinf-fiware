@@ -20,7 +20,7 @@ Fiware.retrieveCredential = (credentialToken, credentialSecret) => {
  * Note that we *must* have an id. Also, this array is referenced in the
  * accounts-fiware package, so we should probably keep this name and structure.
  */
-Fiware.allowedFields = ['id', 'email', 'displayName'];
+Fiware.allowedFields = ['id', 'email', 'username'];
 
 /**
  * Register this service with the underlying OAuth handler
@@ -84,7 +84,7 @@ OAuth.registerService('fiware', 2, null, function(query) {
     options: {
       profile: {
         email: identity.email,
-        name: identity.displayName
+        name: identity.username
       }
     }
   };
@@ -176,7 +176,8 @@ const getTokens = function(fiwareServiceConfiguration, query) {
  *
  * {
  *   id: 1,
- *   displayName: "Demo user",
+ *   displayName: "",
+ *   username: "demouser",
  *   email: "demo@example.com",
  *   roles: [],
  *   organizations: []

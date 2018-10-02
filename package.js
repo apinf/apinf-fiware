@@ -52,5 +52,6 @@ Package.onTest(function(api) {
   api.addFiles('fiware_server.js', 'server');
   api.addFiles('tests/fiware_oauth_config.test.js', 'server');
   api.addFiles('tests/fiware_server.test.js', 'server');
+  api.addFiles('tests/mock.data.js', ['client', 'server']);
   api.addFiles('tests/fiware_client.test.js', 'client');
 });

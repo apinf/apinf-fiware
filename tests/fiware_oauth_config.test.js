@@ -211,7 +211,7 @@ describe('fiware oauth config file', function() {
         let err = null
 
         // Correct URl to be compared to the function's result
-        const expectedUrl = requestInfo.rootURL + "/user?access_token=" + accessTokenMock.responseBody.access_token
+        const expectedUrl = requestInfo.rootURL + "/user"
 
         // Try/Catch statement throws error if buildAccountUrl result does not match the expected
         try {

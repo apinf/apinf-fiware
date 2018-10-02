@@ -98,7 +98,7 @@ describe('allowedFields', function() {
 
   it('should have correct allowed fields', function(done) {
     // Declare correct array of fields to return
-    const correctArray = ['id', 'email', 'displayName']
+    const correctArray = ['id', 'email', 'username']
 
     // Declare variable to determine if array is match or not
     let arraysMatch = true
