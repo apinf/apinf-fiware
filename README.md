@@ -20,12 +20,9 @@ Install `meteor add apinf:accounts-fiware` and this package will be automaticall
 
 ## Changelog
 
-**v0.2.0** Support Keyrock v7. This is backwards incompatible change with earlier keyrock versions.
-
-**v0.1.3** Version management fix
-
-**v0.1.2** Minor bugfix to Meteor login
-
-**v0.1.1** Documentation update
-
-**v0.1.0** Initial Release
+ - **v0.2.1** Bugfix release. Fixes bugs discovered in 0.2.0
+ - **v0.2.0** Support Keyrock v7. This is backwards incompatible change with earlier keyrock versions.
+ - **v0.1.3** Version management fix
+ - **v0.1.2** Minor bugfix to Meteor login
+ - **v0.1.1** Documentation update
+ - **v0.1.0** Initial Release
